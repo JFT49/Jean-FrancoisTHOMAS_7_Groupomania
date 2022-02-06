@@ -1,6 +1,6 @@
-const db = require("../models/Post.model");
+const db = require("../models");
 const Post = db.post;
-const Op = db.Sequelize.Op;
+// const Op = db.Sequelize.Op;
 
 // Create and Save a new Tutorial
 exports.create = (req, res, next) => {
@@ -14,7 +14,7 @@ exports.create = (req, res, next) => {
   // Create a Tutorial
   const post = {
     author: req.body.author,
-    texte: req.body.texte,
+    text: req.body.texte,
     image: req.body.image
   };
   // Save Tutorial in the database
@@ -32,9 +32,14 @@ exports.create = (req, res, next) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res, next) => {
-   Post.findAll()
-    .then(data => res.status(200).json(data))
-    .catch(err => res.status(500).json({ err }))
+  Post.findAll()
+    .then(data => {
+      res.status(200).send(data)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({ err })
+    })
 };
 
 // Find a single Tutorial with an id

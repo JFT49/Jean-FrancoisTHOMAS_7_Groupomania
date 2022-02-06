@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import colors from '../utils/Colors'
-import { PostList }  from '../datas/PostList'
-import { CommentList }  from '../datas/CommentList'
+// import { PostList }  from '../datas/PostList'
+// import { CommentList }  from '../datas/CommentList'
 
 const PostContainer = styled.div`
   padding: 30px;
@@ -32,8 +32,8 @@ const PostForm = styled.form`
 
 
 function PostId(props) {
-    const postid = props.scalevalue
-    const Post = PostList.find( obj => obj.id === `${postid}`)
+    const Post = props.scalevalue
+    const CommentList = props.scalevalue1
 
   return (
     <PostContainer>
@@ -41,14 +41,14 @@ function PostId(props) {
             <PostImg src={Post.image} />
             <PostText>
                 {Post.text} <br />
-                De {Post.author} le {Post.date}
+                De {Post.author} le {Post.createdAt}
             </PostText>
         </PostDiv>
         {CommentList.map((com) =>
             <PostDiv key={com.id}>
                 <PostText >
                     {com.text} <br />
-                    De {com.author} le {com.date}
+                    De {com.author} le {com.createdAt}
                 </PostText>
             </PostDiv>
         )}

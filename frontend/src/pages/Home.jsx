@@ -4,32 +4,39 @@ import { Wrapper } from '../utils/Atoms'
 import { useEffect, useState } from 'react'
 import { Loader } from '../utils/Atoms'
 
-// import { PostList }  from '../datas/PostList'
+  // import { PostList }  from '../datas/PostList'
+
+function formatDate(object) {
+  const j = object.length
+  for (let i=0; i<j; i++){
+    object[i].createdAt = object[i].createdAt.substring(0,10) + " à " + object[i].createdAt.substring(11,16)
+  }
+}
 
 const summary = {title:'Home', menu:['Logout', 'Profile']}
 
 function Home() {
 
   const [isDataLoading, setDataLoading] = useState(false)
-  const [error, setError] = useState(false)
-  const [PostList, setFreelancesList] = useState([])
-
+  const [error, setError] = useState(null)
+  const [postList, setPostList] = useState([])
 
   useEffect(() => {
-    async function fetchPostList() {
+    async function fetchPost() {
       setDataLoading(true)
       try {
         const response = await fetch(`http://localhost:8000/api/post`)
-        const { postList } = await response.json()
-        setFreelancesList(postList)
-      } catch (err) {
-        console.log('===== error =====', err)
+        const postList = await response.json()
+        formatDate(postList)
+        setPostList(postList)
+      } catch (error) {
+        console.log('===== error =====', error)
         setError(true)
       } finally {
         setDataLoading(false)
       }
     }
-    fetchPostList()
+    fetchPost()
   }, [])
 
   if (error) {
@@ -41,8 +48,8 @@ function Home() {
       <Header scalevalue={summary} />
       <Wrapper>
         {isDataLoading ? ( <Loader /> ) : (
-          <Post scalevalue={PostList} />
-         )}
+          <Post scalevalue={postList} />
+        )} 
       </Wrapper>
     </div>
   )

@@ -24,6 +24,9 @@ function Login() {
             <label for="email"> Email :  </label>
             <input id="email" type="email" required style={{fontSize: 25}} />
             <br/>
+            <label for="password"> Password :  </label>
+            <input id="password"  required style={{fontSize: 25}} />
+            <br/>
             <button type="submit" style={{fontSize: 25}}  > Send </button>
         </LoginForm>
       </Wrapper>

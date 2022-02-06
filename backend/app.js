@@ -40,7 +40,9 @@ db.sequelize.sync();
 //Routeurs
 const postRoutes = require('./routes/post.routes.js');
 app.use('/api/post', postRoutes);
-const userRoutes = require('./routes/user');
-app.use('/api/auth', userRoutes);
+const commentRoutes = require('./routes/comment.routes.js');
+app.use('/api/comment', commentRoutes);
+const userRoutes = require('./routes/user.routes.js');
+app.use('/api/user', userRoutes);
 
 module.exports = app;

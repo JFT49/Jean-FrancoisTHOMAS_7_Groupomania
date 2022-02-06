@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import colors from '../utils/Colors'
 import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
 
 const PostContainer = styled.div`
   padding: 30px;
@@ -16,9 +17,9 @@ const PostDiv = styled.div`
   border-radius: 30px;
 `
 
-const PostImg = styled.img`
-  max-height: 200px;
-`
+// const PostImg = styled.img`
+//   max-height: 200px;
+// `
 
 const PostText = styled.p`
     font-size: 40px;
@@ -30,25 +31,40 @@ const PostForm = styled.form`
     color: ${colors.secondary};   
 `
 
+
 function Post(props) {
+
+  const [formData, setFormData] = useState({
+    message: "",
+    image: null
+  })
+
+  const sendPost = (e) => {
+    e.preventDefault()
+    console.log(formData)
+  }
+
   const PostList = props.scalevalue
+
   return (
     <PostContainer>
         {PostList.map((post) =>
-            <Link to={`/Comments/:${post.id}`} style={{color:'inherit', textDecoration:'inherit'}}>
+            <Link to={`/Comments/${post.id}`} style={{color:'inherit', textDecoration:'inherit'}}>
             <PostDiv key={post.id}>
-                <PostImg src={post.image} />
+                {/* <PostImg src={post.image} /> */}
                 <PostText>
                     {post.text} <br />
-                    De {post.author} le {post.date}
+                    De {post.author} le {post.createdAt}
                 </PostText>
             </PostDiv>
             </Link>
         )}
         <PostDiv>
-          <PostForm id="Post" novalidate success-msg="Your message has been sent." fail-msg="Sorry it seems that our mail server is not responding, Sorry for the inconvenience!">
+          <PostForm onSubmit={sendPost} id="Post" novalidate success-msg="Your message has been sent." fail-msg="Sorry it seems that our mail server is not responding, Sorry for the inconvenience!">
+
             <label for="message"> New Post :  </label>
-            <textarea id="message" rows="3" cols="30" required style={{fontSize: 25}} />
+            {/* <textarea id="message" rows="3" cols="30" required style={{fontSize: 25}} /> */}
+            <textarea onChange={(e) => setFormData({...formData, message: e.target.value})}  value={formData.message} name="message" id="message"></textarea>
             <br/>
             <label for="image"> Image :  </label>
             <input id="image" type="file" accept="image/png, image/jpg, image/gif" style={{fontSize: 25}} />
