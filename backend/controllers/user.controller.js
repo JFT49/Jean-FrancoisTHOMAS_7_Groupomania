@@ -16,19 +16,19 @@ Validation
 .has().not().spaces();                           // Should not have spaces
 
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)      //Hashage du password avec BCRYPT
+    bcrypt.hash(req.body.formData.password, 10)      //Hashage du password avec BCRYPT
         .then(hash => {
             const user = new User({
-                name: req.body.name,
-                email: req.body.email,
+                name: req.body.formData.name,
+                email: req.body.formData.email,
                 password: hash
             });
-            if (Validation.validate(req.body.password)) {    //retourne TRUE si respecte les critéres de Validation
+            if (Validation.validate(req.body.formData.password)) {    //retourne TRUE si respecte les critéres de Validation
             user.save()
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !'}))
                 .catch(error => res.status(400).json({ error }));
             }else{
-                var Reponse = Validation.validate(req.body.password, { details: true } );  //retourne les details des critéres de Validation non respecté
+                var Reponse = Validation.validate(req.body.formData.password, { details: true } );  //retourne les details des critéres de Validation non respecté
                 var iteration = Reponse.length;
                 var Message = "";
                 for ( let i = 0; i < iteration ; i++){
@@ -39,3 +39,41 @@ exports.signup = (req, res, next) => {
         })
         .catch(error => res.status(500).json({ error }));
 };
+
+exports.login = (req, res, next) => {
+    User.findOne({ where: { email: req.body.formData.email, name: req.body.formData.name} })
+        .then(user => {
+            if (!user) {
+                return res.status(401).json({ message: 'Utilisateur non trouvé !'});
+            }
+            bcrypt.compare(req.body.formData.password, user.password)
+            .then(valid => {
+                if (!valid) {
+                    return res.status(401).json({ message: 'Mot de passe incorrect !'});
+                }
+                res.status(200).json({
+                    userId: user.id,
+                    token: jwt.sign(
+                        { userId: user.id },
+                        process.env.TOKEN_VERIFY,      //Variable d'environnement définit dans le .env de DOTENV (.env à mettre dans gitignore)
+                        { expiresIn: '24h' }
+                    ),
+                    message: "Utilisateur logué !"
+                });
+            })
+            .catch(error => res.status(500).json({ error }));
+        })
+    .catch(error => res.status(500).json({ error }));
+};
+
+// Find a single Tutorial with an id
+exports.profile = (req, res) => {
+    User.findOne({where: {id: req.body.userId} })
+        .then(user => {
+            if (!user) {
+                return res.status(401).json({ message: 'Utilisateur non trouvé !'})
+            }
+            return res.status(200).json({user})
+        })
+        .catch(error => res.status(500).json({ error }))
+}

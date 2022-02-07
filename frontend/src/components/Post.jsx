@@ -49,8 +49,8 @@ function Post(props) {
   return (
     <PostContainer>
         {PostList.map((post) =>
-            <Link to={`/Comments/${post.id}`} style={{color:'inherit', textDecoration:'inherit'}}>
-            <PostDiv key={post.id}>
+            <Link to={`/Comments/${post.id}`} style={{color:'inherit', textDecoration:'inherit'}} key={post.id}>
+            <PostDiv>
                 {/* <PostImg src={post.image} /> */}
                 <PostText>
                     {post.text} <br />

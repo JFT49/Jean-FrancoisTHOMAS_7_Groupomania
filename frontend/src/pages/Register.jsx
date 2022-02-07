@@ -20,9 +20,36 @@ function Register() {
     password: ""
   })
 
+  const [error, setError] = useState(null)
+  const [message, setSignup] = useState([])
+
   const sendPost = (e) => {
     e.preventDefault()    // empêche le reload
-    console.log(formData)
+
+    async function fetchPost() {
+      try {
+        var myInit = {
+          method: 'POST',
+          body: JSON.stringify({formData}),
+          headers: new Headers({'Content-Type': 'application/json'}),
+          mode: 'cors',
+          cache: 'default'
+        }
+        const response = await fetch(`http://localhost:8000/api/user/signup`, myInit)
+        const message = await response.json()
+        setSignup(message)
+      } catch (error) {
+        console.log('===== error =====', error)
+        setError(true)
+      } finally {
+  
+      }
+    }
+    fetchPost()
+
+    if (error) {
+      return <span>Oups il y a eu un problème</span>
+    }
   }
 
   return (
@@ -40,7 +67,10 @@ function Register() {
             <input onChange={(e) => setFormData({...formData, password: e.target.value})}  value={formData.password} name="password" id="password" required style={{fontSize: 25}} />
             <br/>
             <button type="submit" style={{fontSize: 25}}  > Send </button>
+            <br/>
         </LoginForm>
+        <br/>
+        <div class="text"><pre>{message.message}</pre></div>
       </Wrapper>
     </div>
   )
