@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 import colors from '../utils/Colors'
-// import { PostList }  from '../datas/PostList'
-// import { CommentList }  from '../datas/CommentList'
+import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { Loader } from '../utils/Atoms'
 
 const PostContainer = styled.div`
   padding: 30px;
@@ -35,6 +36,47 @@ function PostId(props) {
     const Post = props.scalevalue
     const CommentList = props.scalevalue1
 
+    const storage = JSON.parse(localStorage.getItem('objet'))
+    const [formData, setFormData] = useState({
+      message: "",
+      id: storage.userId
+    })
+
+    const [error, setError] = useState(null)
+    const [isDataLoading, setDataLoading] = useState(false)
+    const { postid } = useParams()
+
+    const sendComment = (e) => {
+      //e.preventDefault()
+      async function fetchPost() {
+        setDataLoading(true)
+        try {
+          var myInit = {
+            method: 'POST',
+            body: JSON.stringify({formData}),
+            headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token}),
+            mode: 'cors',
+            cache: 'default'
+          }
+          console.log(myInit)
+          const response = await fetch(`http://localhost:8000/api/comment/${postid}`, myInit)
+          const message = await response.json()
+          console.log(message)
+        } catch (error) {
+          console.log('===== error =====', error)
+          setError(true)
+        } finally {
+          setDataLoading(false)
+        }
+      }
+      fetchPost()
+  
+      if (error) {
+        return <span>Oups il y a eu un problème</span>
+      }
+    }
+
+
   return (
     <PostContainer>
         <PostDiv key={Post.id} style={{backgroundColor: colors.background}}>
@@ -44,20 +86,21 @@ function PostId(props) {
                 De {Post.author} le {Post.createdAt}
             </PostText>
         </PostDiv>
-        {CommentList.map((com) =>
-            <PostDiv key={com.id}>
-                <PostText >
-                    {com.text} <br />
-                    De {com.author} le {com.createdAt}
-                </PostText>
-            </PostDiv>
+        {isDataLoading ? ( <Loader /> ) : (
+          CommentList.map((com) =>
+              <PostDiv key={com.id}>
+                  <PostText >
+                      {com.text} <br />
+                      De {com.author} le {com.createdAt}
+                  </PostText>
+              </PostDiv>
+          )
         )}
         <PostDiv>
-          <PostForm id="Comment" novalidate success-msg="Your message has been sent." fail-msg="Sorry it seems that our mail server is not responding, Sorry for the inconvenience!">
-            <div class="form-group">
-                <label> New Comment :  </label>
-                <textarea id="message" rows="3" cols="30" required style={{fontSize: 25}} />
-            </div>
+          <PostForm onSubmit={sendComment}>
+            <label for="message"> New Comment :  </label>
+            <textarea onChange={(e) => setFormData({...formData, message: e.target.value})}  value={formData.message} name="message" id="message" required></textarea>
+            <br/>
             <button type="submit" style={{fontSize: 25}}  > Send </button>
           </PostForm>
         </PostDiv> 
