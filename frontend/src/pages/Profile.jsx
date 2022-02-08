@@ -24,10 +24,11 @@ function Profile() {
     async function fetchPost() {
       setDataLoading(true)
       try {
+        const storage = JSON.parse(localStorage.getItem('objet'))
         var myInit = {
           method: 'POST',
           body: localStorage.getItem('objet'),
-          headers: new Headers({'Content-Type': 'application/json'}),
+          headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
           mode: 'cors',
           cache: 'default'
         }

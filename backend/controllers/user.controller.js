@@ -41,6 +41,7 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
+    console.log(req.headers)
     User.findOne({ where: { email: req.body.formData.email, name: req.body.formData.name} })
         .then(user => {
             if (!user) {

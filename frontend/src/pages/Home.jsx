@@ -25,7 +25,14 @@ function Home() {
     async function fetchPost() {
       setDataLoading(true)
       try {
-        const response = await fetch(`http://localhost:8000/api/post`)
+        const storage = JSON.parse(localStorage.getItem('objet'))
+        var myInit = {
+          method: 'GET',
+          headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
+          mode: 'cors',
+          cache: 'default'
+        }
+        const response = await fetch(`http://localhost:8000/api/post`, myInit)
         const postList = await response.json()
         formatDate(postList)
         setPostList(postList)

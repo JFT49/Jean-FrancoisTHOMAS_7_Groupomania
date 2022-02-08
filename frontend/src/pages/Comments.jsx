@@ -29,10 +29,19 @@ function Comments() {
      const { postid } = useParams()
 
      useEffect(() => {
+
+      const storage = JSON.parse(localStorage.getItem('objet'))
+      var myInit = {
+        method: 'GET',
+        headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
+        mode: 'cors',
+        cache: 'default'
+      }
+
       async function fetchPostId() {
         setDataLoading(true)
         try {
-          const response = await fetch(`http://localhost:8000/api/post/${postid}`)
+          const response = await fetch(`http://localhost:8000/api/post/${postid}`, myInit)
           const postSingle = await response.json()
           formatDate(postSingle)
           setPostSingle(postSingle)
@@ -48,7 +57,7 @@ function Comments() {
       async function fetchComment() {
         setDataLoading(true)
         try {
-          const response = await fetch(`http://localhost:8000/api/comment/${postid}`)
+          const response = await fetch(`http://localhost:8000/api/comment/${postid}`, myInit)
           const commentList = await response.json()
           formatDate(commentList)
           setCommentList(commentList)
