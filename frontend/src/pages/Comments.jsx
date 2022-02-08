@@ -59,8 +59,10 @@ function Comments() {
         try {
           const response = await fetch(`http://localhost:8000/api/comment/${postid}`, myInit)
           const commentList = await response.json()
-          formatDate(commentList)
-          setCommentList(commentList)
+          if(commentList.length){
+            formatDate(commentList)
+            setCommentList(commentList)
+          }
         } catch (error) {
           console.log('===== error =====', error)
           setError(true)
