@@ -17,7 +17,7 @@ function formatDate(object) {
   }
 }
 
-const summary = {title:'Comments', menu:['Logout', 'Profile', 'Home']}
+const summary = {title:'Comments', menu:['Profile', 'Home']}
  
 function Comments() {
      

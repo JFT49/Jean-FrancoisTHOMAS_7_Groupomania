@@ -13,7 +13,7 @@ function formatDate(object) {
   }
 }
 
-const summary = {title:'Home', menu:['Logout', 'Profile']}
+const summary = {title:'Home', menu:['Profile']}
 
 function Home() {
 

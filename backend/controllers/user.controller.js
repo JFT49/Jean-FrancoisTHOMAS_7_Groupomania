@@ -78,3 +78,20 @@ exports.profile = (req, res) => {
         })
         .catch(error => res.status(500).json({ error }))
 }
+
+exports.delete = (req, res) => {
+    const id = req.body.userId
+    User.destroy({where: {id: id} })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                  message: "User was deleted successfully!"
+                });
+            } else {
+                res.send({
+                  message: `Cannot delete User with id=${id}. Maybe Tutorial was not found!`
+                });
+            }
+        })
+        .catch(error => res.status(500).json({ message: error.message || "Could not delete User with id=" + id }))
+}

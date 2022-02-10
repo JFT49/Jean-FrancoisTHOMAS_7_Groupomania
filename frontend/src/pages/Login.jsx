@@ -13,8 +13,9 @@ const LoginForm = styled.form`
 
 const summary = {title:'Login', menu:[ 'Register', 'Home']}
 
-function Login() {
 
+function Login() {
+  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -42,11 +43,11 @@ function Login() {
         localStorage.clear()
         localStorage.setItem('objet', JSON.stringify(message))
         console.log(JSON.parse(localStorage.getItem('objet')))
+        
+        
       } catch (error) {
         console.log('===== error =====', error)
         setError(true)
-      } finally {
-  
       }
     }
     fetchPost()

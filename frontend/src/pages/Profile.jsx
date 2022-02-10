@@ -4,6 +4,7 @@ import Header from '../components/Header'
 import { Wrapper } from '../utils/Atoms'
 import { useEffect, useState } from 'react'
 import { Loader } from '../utils/Atoms'
+import { Link } from 'react-router-dom'
 
 // import { ProfileID }  from '../datas/ProfileID'
 
@@ -12,7 +13,38 @@ const ProfileText = styled.div`
     color: ${colors.secondary};
     
 `
-const summary = {title:'Profile', menu:['Logout', 'Home']}
+
+
+
+function Deconnexion() {
+  localStorage.clear()
+  alert('You are deconnected !')
+}
+
+function Unregister() {
+  async function fetchDelete() {
+    try {  
+      const storage = JSON.parse(localStorage.getItem('objet'))
+        var myInit = {
+          method: 'POST',
+          body: localStorage.getItem('objet'),
+          headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
+          mode: 'cors',
+          cache: 'default'
+        } 
+      const response = await fetch(`http://localhost:8000/api/user/delete`, myInit)
+      const resp = await response.json()
+      console.log(resp)
+    } catch (error) {
+      console.log('===== error =====', error)
+    }
+  }
+  fetchDelete()
+  localStorage.clear()
+  alert('You are Unregister !')
+}
+
+const summary = {title:'Profile', menu:['Home']}
 
 function Profile() {
 
@@ -23,7 +55,7 @@ function Profile() {
   useEffect(() => {
     async function fetchPost() {
       setDataLoading(true)
-      try {
+      try { 
         const storage = JSON.parse(localStorage.getItem('objet'))
         var myInit = {
           method: 'POST',
@@ -31,7 +63,7 @@ function Profile() {
           headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
           mode: 'cors',
           cache: 'default'
-        }
+        } 
         const response = await fetch(`http://localhost:8000/api/user/profile`, myInit)
         const profile = await response.json()
         setProfile(profile)
@@ -54,14 +86,21 @@ function Profile() {
     return (
       <div>
         <Header scalevalue={summary} />
+        {isDataLoading ? ( <Loader /> ) : (
         <Wrapper>
-          {isDataLoading ? ( <Loader /> ) : (
+          
             <ProfileText>
                 Name : { profile.user.name } <br />
                 Mail : { profile.user.email }
             </ProfileText>
-          )}
+            <Link  to={`/Login`} style={{marginTop: 50}}>
+            <button onClick={() => Deconnexion()} style={{fontSize: 25}}  > Deconnexion </button>
+            </Link>
+            <Link  to={`/Register`} style={{margin: 25}}>
+            <button onClick={() => Unregister()} style={{fontSize: 25}}  > Unregister </button>
+            </Link>
         </Wrapper>
+        )}
       </div>
     )
   } else {

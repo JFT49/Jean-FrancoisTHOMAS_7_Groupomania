@@ -1,11 +1,12 @@
-const auth = require('../middleware/auth');                 //middleware de verification du token user
+const auth = require('../middleware/auth')                //middleware de verification du token user
 
-const user = require("../controllers/user.controller.js");
+const user = require("../controllers/user.controller.js")
 
-var router = require("express").Router();
+var router = require("express").Router()
 
-router.post("/signup", user.signup);
-router.post("/login", user.login);
+router.post("/signup", user.signup)
+router.post("/login", user.login)
 router.post("/profile", auth, user.profile)
+router.post("/delete", auth, user.delete)
 
-module.exports = router;
+module.exports = router

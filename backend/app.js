@@ -1,17 +1,9 @@
 //Application Express
 
-// const mongoose = require('mongoose');   //MONGOOSE : gestion base de donnée MongoDB pour Express
 const express = require('express');     //EXPRESS : framework 
 const cors = require('cors');         //CORS : Cross Origin Resource Sharing
 const helmet = require("helmet");    //HELMET : xssFilter, noSniff, ...
 require('dotenv').config();         //DOTENV : pour le gestion des variables d'environneemnts
-
-//Connection à la base de donnée MongoDB
-// mongoose.connect( process.env.MONGOOSE_CONNECT_ENV ,    //Variable d'environnement définit dans le .env de DOTENV (.env à mettre dans gitignore)
-//   { useNewUrlParser: true,
-//     useUnifiedTopology: true })
-//   .then(() => console.log('Connexion à MongoDB réussie !'))
-//   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 const app = express();
 
@@ -33,9 +25,6 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 const db = require("./models");
 db.sequelize.sync();
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and re-sync db.");
-// });
 
 //Routeurs
 const postRoutes = require('./routes/post.routes.js');

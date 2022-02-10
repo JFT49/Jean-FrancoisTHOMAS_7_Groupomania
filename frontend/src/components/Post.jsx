@@ -47,17 +47,20 @@ function Post(props) {
   const [isDataLoading, setDataLoading] = useState(false)
 
   const sendPost = (e) => {
-    // e.preventDefault()
+    e.preventDefault()
     async function fetchPost() {
       setDataLoading(true)
       try {
+        // const file = document.getElementById('image')
         var myInit = {
           method: 'POST',
           body: JSON.stringify({formData}),
           headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token}),
           mode: 'cors',
-          cache: 'default'
+          cache: 'default',
+         // file: file.files[0]
         }
+        //console.log(myInit.file)
         const response = await fetch(`http://localhost:8000/api/post`, myInit)
         const message = await response.json()
         console.log(message)
@@ -96,7 +99,8 @@ function Post(props) {
             <textarea onChange={(e) => setFormData({...formData, message: e.target.value})}  value={formData.message} name="message" id="message" required></textarea>
             <br/>
             <label for="image"> Image :  </label>
-            <input id="image" type="file" accept="image/png, image/jpg, image/gif" style={{fontSize: 25}} />
+            <input name="image" id="image" type="file" accept="image/png, image/jpeg, image/jpg, image/gif" style={{fontSize: 25}} />
+            {/* <input onChange={(e) => setFormImage({...formImage, image: e.target.value})}  value={formData.image} name="image" id="image" type="file" accept="image/png, image/jpeg, image/jpg, image/gif" style={{fontSize: 25}} /> */}
             <br/>
             <button type="submit" style={{fontSize: 25}}  > Send </button>
           </PostForm>

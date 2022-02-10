@@ -1,18 +1,18 @@
 const db = require("../models");
 const Post = db.post;
 const User = db.user;
+// const fs = require('fs');   //FS : file system
 // const Op = db.Sequelize.Op;
 
 // Create and Save a new Post
 exports.create = (req, res, next) => {
-
   User.findOne({where: {id: req.body.formData.id} })
         .then(user => {
           // Create a Post
           const post = {
             author: user.name,
             text: req.body.formData.message,
-            image: req.body.formData.image
+            image: req.body.formData.image // `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
           }
           // Save Post in the database
           Post.create(post)
@@ -42,7 +42,6 @@ exports.findAll = (req, res, next) => {
 // Find a single Post with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
-
     Post.findByPk(id)
       .then(data => {
         if (data) {
