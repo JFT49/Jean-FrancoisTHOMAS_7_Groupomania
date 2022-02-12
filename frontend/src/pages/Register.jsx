@@ -10,7 +10,7 @@ const LoginForm = styled.form`
     color: ${colors.secondary};   
 `
 
-const summary = {title:'Register', menu:[ 'Login', 'Home']}
+const summary = {title:'Register', menu:[ 'Login']}
 
 function Register() {
 
@@ -32,8 +32,6 @@ function Register() {
           method: 'POST',
           body: JSON.stringify({formData}),
           headers: new Headers({'Content-Type': 'application/json'}),
-          mode: 'cors',
-          cache: 'default'
         }
         const response = await fetch(`http://localhost:8000/api/user/signup`, myInit)
         const message = await response.json()

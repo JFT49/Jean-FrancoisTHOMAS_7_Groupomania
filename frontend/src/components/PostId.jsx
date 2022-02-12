@@ -55,8 +55,6 @@ function PostId(props) {
             method: 'POST',
             body: JSON.stringify({formData}),
             headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token}),
-            mode: 'cors',
-            cache: 'default'
           }
           console.log(myInit)
           const response = await fetch(`http://localhost:8000/api/comment/${postid}`, myInit)
@@ -80,12 +78,20 @@ function PostId(props) {
   return (
     <PostContainer>
         <PostDiv key={Post.id} style={{backgroundColor: colors.background}}>
-            <PostImg src={Post.image} />
-            <PostText>
-                {Post.text} <br />
-                De {Post.author} le {Post.createdAt}
-            </PostText>
+          <PostImg src={Post.image} />
+          <PostText>
+              {Post.text} <br />
+              De {Post.author} le {Post.createdAt}
+          </PostText>
         </PostDiv>
+        <PostDiv>
+          <PostForm onSubmit={sendComment}>
+            <label for="message"> New Comment :  </label>
+            <textarea onChange={(e) => setFormData({...formData, message: e.target.value})}  value={formData.message} name="message" id="message" required></textarea>
+            <br/>
+            <button type="submit" style={{fontSize: 25}}  > Send </button>
+          </PostForm>
+        </PostDiv> 
         {isDataLoading ? ( <Loader /> ) : (
           CommentList.map((com) =>
               <PostDiv key={com.id}>
@@ -96,14 +102,6 @@ function PostId(props) {
               </PostDiv>
           )
         )}
-        <PostDiv>
-          <PostForm onSubmit={sendComment}>
-            <label for="message"> New Comment :  </label>
-            <textarea onChange={(e) => setFormData({...formData, message: e.target.value})}  value={formData.message} name="message" id="message" required></textarea>
-            <br/>
-            <button type="submit" style={{fontSize: 25}}  > Send </button>
-          </PostForm>
-        </PostDiv> 
     </PostContainer>
   )
 }

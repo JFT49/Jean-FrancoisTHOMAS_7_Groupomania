@@ -29,13 +29,13 @@ function Home() {
         var myInit = {
           method: 'GET',
           headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
-          mode: 'cors',
-          cache: 'default'
         }
         const response = await fetch(`http://localhost:8000/api/post`, myInit)
         const postList = await response.json()
-        formatDate(postList)
-        setPostList(postList)
+        if (postList.length){
+          formatDate(postList)
+          setPostList(postList)
+        }
       } catch (error) {
         console.log('===== error =====', error)
         setError(true)

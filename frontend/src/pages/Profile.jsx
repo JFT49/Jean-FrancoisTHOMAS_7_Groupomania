@@ -29,8 +29,6 @@ function Unregister() {
           method: 'POST',
           body: localStorage.getItem('objet'),
           headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
-          mode: 'cors',
-          cache: 'default'
         } 
       const response = await fetch(`http://localhost:8000/api/user/delete`, myInit)
       const resp = await response.json()

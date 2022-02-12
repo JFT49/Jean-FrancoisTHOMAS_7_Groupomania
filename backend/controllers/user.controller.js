@@ -42,7 +42,7 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
     console.log(req.headers)
-    User.findOne({ where: { email: req.body.formData.email, name: req.body.formData.name} })
+    User.findOne({ where: { name: req.body.formData.name} })
         .then(user => {
             if (!user) {
                 return res.status(401).json({ message: 'Utilisateur non trouvé !'});
@@ -58,8 +58,7 @@ exports.login = (req, res, next) => {
                         { userId: user.id },
                         process.env.TOKEN_VERIFY,      //Variable d'environnement définit dans le .env de DOTENV (.env à mettre dans gitignore)
                         { expiresIn: '24h' }
-                    ),
-                    message: "Utilisateur logué !"
+                    )
                 });
             })
             .catch(error => res.status(500).json({ error }));
@@ -67,7 +66,6 @@ exports.login = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
-// Find a single Tutorial with an id
 exports.profile = (req, res) => {
     User.findOne({where: {id: req.body.userId} })
         .then(user => {

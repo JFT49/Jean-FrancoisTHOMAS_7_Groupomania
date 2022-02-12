@@ -18,9 +18,9 @@ const PostDiv = styled.div`
   border-radius: 30px;
 `
 
-// const PostImg = styled.img`
-//   max-height: 200px;
-// `
+const PostImg = styled.img`
+  max-height: 200px;
+`
 
 const PostText = styled.p`
     font-size: 40px;
@@ -37,31 +37,33 @@ function Post(props) {
   const PostList = props.scalevalue
 
   const storage = JSON.parse(localStorage.getItem('objet'))
-  const [formData, setFormData] = useState({
+  const [formMessage, setFormMessage] = useState({
     message: "",
-    image: null,
-    id: storage.userId
+    id: storage.userId,
   })
 
   const [error, setError] = useState(null)
   const [isDataLoading, setDataLoading] = useState(false)
+  const [fileImage, setImage] = useState({})
+ 
 
   const sendPost = (e) => {
     e.preventDefault()
     async function fetchPost() {
+      
       setDataLoading(true)
       try {
-        // const file = document.getElementById('image')
+        const formData = new FormData()
+        formData.append("image", fileImage.image)
+        formData.append("message", formMessage.message)
+        formData.append("id", formMessage.id)
+
         var myInit = {
           method: 'POST',
-          body: JSON.stringify({formData}),
-          headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token}),
-          mode: 'cors',
-          cache: 'default',
-         // file: file.files[0]
+          body: formData,
+          headers: new Headers({'Authorization': 'Bearer ' + storage.token})
         }
-        //console.log(myInit.file)
-        const response = await fetch(`http://localhost:8000/api/post`, myInit)
+        const response = await fetch( `http://localhost:8000/api/post`, myInit)
         const message = await response.json()
         console.log(message)
       } catch (error) {
@@ -80,11 +82,22 @@ function Post(props) {
 
   return (
     <PostContainer>
+        <PostDiv>
+          <PostForm onSubmit={sendPost} >
+            <label for="message"> New Post :  </label>
+            <textarea onChange={(e) => setFormMessage({...formMessage, message: e.target.value})}  value={formMessage.message} name="message" id="message" required></textarea>
+            <br/>
+            <label for="image"> Image :  </label>
+            <input onChange={(e) => setImage({...fileImage, image: e.target.files[0]})}  name="image" id="image" type="file" accept="image/png, image/jpeg, image/jpg, image/gif" style={{fontSize: 25}}/>
+            <br/>
+            <button type="submit" style={{fontSize: 25}}  > Send </button>
+          </PostForm>
+        </PostDiv> 
         {isDataLoading ? ( <Loader /> ) : (
           PostList.map((post) =>
               <Link to={`/Comments/${post.id}`} style={{color:'inherit', textDecoration:'inherit'}} key={post.id}>
               <PostDiv>
-                  {/* <PostImg src={post.image} /> */}
+                  <PostImg src={post.image} />
                   <PostText>
                       {post.text} <br />
                       De {post.author} le {post.createdAt}
@@ -93,18 +106,6 @@ function Post(props) {
               </Link>
           )  
         )}
-        <PostDiv>
-          <PostForm onSubmit={sendPost}>
-            <label for="message"> New Post :  </label>
-            <textarea onChange={(e) => setFormData({...formData, message: e.target.value})}  value={formData.message} name="message" id="message" required></textarea>
-            <br/>
-            <label for="image"> Image :  </label>
-            <input name="image" id="image" type="file" accept="image/png, image/jpeg, image/jpg, image/gif" style={{fontSize: 25}} />
-            {/* <input onChange={(e) => setFormImage({...formImage, image: e.target.value})}  value={formData.image} name="image" id="image" type="file" accept="image/png, image/jpeg, image/jpg, image/gif" style={{fontSize: 25}} /> */}
-            <br/>
-            <button type="submit" style={{fontSize: 25}}  > Send </button>
-          </PostForm>
-        </PostDiv> 
     </PostContainer>
   )
 }

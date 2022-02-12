@@ -34,8 +34,6 @@ function Comments() {
       var myInit = {
         method: 'GET',
         headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
-        mode: 'cors',
-        cache: 'default'
       }
 
       async function fetchPostId() {

@@ -6,7 +6,7 @@ const User = db.user;
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res, next) => {
-  Comment.findAll({ where: {post_id: req.params.postid}})
+  Comment.findAll({ where: {post_id: req.params.postid}, order: [['createdAt', 'DESC']] })
     .then(data => {
       console.log(data)
       res.status(200).send(data)

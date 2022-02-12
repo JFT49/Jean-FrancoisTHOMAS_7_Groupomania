@@ -3,6 +3,7 @@ import colors from '../utils/Colors'
 import Header from '../components/Header'
 import { Wrapper } from '../utils/Atoms'
 import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 
 
 const LoginForm = styled.form`
@@ -11,10 +12,13 @@ const LoginForm = styled.form`
     
 `
 
-const summary = {title:'Login', menu:[ 'Register', 'Home']}
+const summary = {title:'Login', menu:[ 'Register']}
+
 
 
 function Login() {
+
+  let navigate = useNavigate();
   
   const [formData, setFormData] = useState({
     name: "",
@@ -23,27 +27,25 @@ function Login() {
   })
 
   const [error, setError] = useState(null)
-  const [message, setSignup] = useState([])
 
   const sendPost = (e) => {
     e.preventDefault()    // empêche le reload
 
     async function fetchPost() {
+      
       try {
+        
         var myInit = {
           method: 'POST',
           body: JSON.stringify({formData}),
           headers: new Headers({'Content-Type': 'application/json'}),
-          mode: 'cors',
-          cache: 'default'
         }
         const response = await fetch(`http://localhost:8000/api/user/login`, myInit)
-        const message = await response.json()
-        setSignup(message)
+        const signup = await response.json()
         localStorage.clear()
-        localStorage.setItem('objet', JSON.stringify(message))
-        console.log(JSON.parse(localStorage.getItem('objet')))
-        
+        localStorage.setItem('objet', JSON.stringify(signup))
+        navigate(`/Home`);
+
         
       } catch (error) {
         console.log('===== error =====', error)
@@ -65,17 +67,15 @@ function Login() {
             <label for="name"> Name :  </label>
             <input onChange={(e) => setFormData({...formData, name: e.target.value})}  value={formData.name} name="name" id="name" required style={{fontSize: 25}} />
             <br/>
-            <label for="email"> Email :  </label>
+            {/* <label for="email"> Email :  </label>
             <input onChange={(e) => setFormData({...formData, email: e.target.value})}  value={formData.email} name="email" id="email" type="email" required style={{fontSize: 25}} />
-            <br/>
+            <br/> */}
             <label for="password"> Password :  </label>
             <input onChange={(e) => setFormData({...formData, password: e.target.value})}  value={formData.password} name="password" id="password" required style={{fontSize: 25}} />
             <br/>
             <button type="submit" style={{fontSize: 25}}  > Send </button>
             <br/>
         </LoginForm>
-        <br/>
-        <div class="text"><pre>{message.message}</pre></div>
       </Wrapper>
     </div>
   )
