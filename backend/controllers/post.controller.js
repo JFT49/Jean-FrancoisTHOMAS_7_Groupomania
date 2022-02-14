@@ -1,12 +1,11 @@
 const db = require("../models");
 const Post = db.post;
 const User = db.user;
-// const fs = require('fs');   //FS : file system
-// const Op = db.Sequelize.Op;
 
 // Create and Save a new Post
-exports.create = (req, res, next) => {
-  User.findOne({where: {id: req.body.id} })
+exports.create = (req, res) => {
+  const {userId} = res.locals
+  User.findOne({where: {id: userId} })
         .then(user => {
           // Create a Post
           let imageURL = null
@@ -48,21 +47,20 @@ exports.findAll = (req, res, next) => {
 
 // Find a single Post with an id
 exports.findOne = (req, res) => {
-    const id = req.params.id;
-    Post.findByPk(id)
+    const postid = req.params.postid;
+    Post.findByPk(postid)
       .then(data => {
         if (data) {
           res.send(data);
         } else {
           res.status(404).send({
-            message: `Cannot find Post with id=${id}.`
+            message: `Cannot find Post with id=${postid}.`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving Post with id=" + id
+          message: "Error retrieving Post with id=" + postid + ".Error : " + err
         });
       });  
 };
-

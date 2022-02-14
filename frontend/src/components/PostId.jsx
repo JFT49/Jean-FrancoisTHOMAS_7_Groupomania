@@ -37,10 +37,7 @@ function PostId(props) {
     const CommentList = props.scalevalue1
 
     const storage = JSON.parse(localStorage.getItem('objet'))
-    const [formData, setFormData] = useState({
-      message: "",
-      id: storage.userId
-    })
+    const [formData, setFormData] = useState({ message: "" })
 
     const [error, setError] = useState(null)
     const [isDataLoading, setDataLoading] = useState(false)

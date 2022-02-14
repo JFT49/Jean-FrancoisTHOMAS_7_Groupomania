@@ -6,7 +6,7 @@ var router = require("express").Router()
 
 router.post("/signup", user.signup)
 router.post("/login", user.login)
-router.post("/profile", auth, user.profile)
-router.post("/delete", auth, user.delete)
+router.get("/profile", auth, user.profile)
+router.delete("/delete", auth, user.delete)
 
 module.exports = router

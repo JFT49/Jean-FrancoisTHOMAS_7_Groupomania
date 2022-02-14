@@ -7,6 +7,7 @@ var router = require("express").Router();
 
 router.post("/", auth, multer, post.create);
 router.get("/", auth, post.findAll);
-router.get("/:id", auth, post.findOne);
+router.get("/:postid", auth, post.findOne);
+//router.delete("/delete", auth, post.delete);
 
 module.exports = router;

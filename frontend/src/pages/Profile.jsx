@@ -6,15 +6,10 @@ import { useEffect, useState } from 'react'
 import { Loader } from '../utils/Atoms'
 import { Link } from 'react-router-dom'
 
-// import { ProfileID }  from '../datas/ProfileID'
-
 const ProfileText = styled.div`
     font-size: 40px;
     color: ${colors.secondary};
-    
 `
-
-
 
 function Deconnexion() {
   localStorage.clear()
@@ -26,7 +21,7 @@ function Unregister() {
     try {  
       const storage = JSON.parse(localStorage.getItem('objet'))
         var myInit = {
-          method: 'POST',
+          method: 'DELETE',
           body: localStorage.getItem('objet'),
           headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
         } 
@@ -56,11 +51,8 @@ function Profile() {
       try { 
         const storage = JSON.parse(localStorage.getItem('objet'))
         var myInit = {
-          method: 'POST',
-          body: localStorage.getItem('objet'),
+          method: 'GET',
           headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
-          mode: 'cors',
-          cache: 'default'
         } 
         const response = await fetch(`http://localhost:8000/api/user/profile`, myInit)
         const profile = await response.json()

@@ -15,7 +15,7 @@ Validation
 .has().digits()                                // Must have digits
 .has().not().spaces();                           // Should not have spaces
 
-exports.signup = (req, res, next) => {
+exports.signup = (req, res) => {
     bcrypt.hash(req.body.formData.password, 10)      //Hashage du password avec BCRYPT
         .then(hash => {
             const user = new User({
@@ -40,7 +40,7 @@ exports.signup = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
-exports.login = (req, res, next) => {
+exports.login = (req, res) => {
     console.log(req.headers)
     User.findOne({ where: { name: req.body.formData.name} })
         .then(user => {
@@ -53,7 +53,6 @@ exports.login = (req, res, next) => {
                     return res.status(401).json({ message: 'Mot de passe incorrect !'});
                 }
                 res.status(200).json({
-                    userId: user.id,
                     token: jwt.sign(
                         { userId: user.id },
                         process.env.TOKEN_VERIFY,      //Variable d'environnement définit dans le .env de DOTENV (.env à mettre dans gitignore)
@@ -63,23 +62,25 @@ exports.login = (req, res, next) => {
             })
             .catch(error => res.status(500).json({ error }));
         })
-    .catch(error => res.status(500).json({ error }));
+        .catch(error => res.status(500).json({ error }));
 };
 
-exports.profile = (req, res) => {
-    User.findOne({where: {id: req.body.userId} })
+exports.profile = (req, res) => {           // res.locals est transmis ppar la req
+    const {userId} = res.locals    
+    console.log(userId)
+    User.findOne({where: {id: userId} })
         .then(user => {
             if (!user) {
                 return res.status(401).json({ message: 'Utilisateur non trouvé !'})
             }
             return res.status(200).json({user})
         })
-        .catch(error => res.status(500).json({ error }))
+        .catch(error => res.status(500).json({ error }) )
 }
 
-exports.delete = (req, res) => {
-    const id = req.body.userId
-    User.destroy({where: {id: id} })
+exports.delete = (req, res) => {             // res.locals est transmis par la req
+    const {userId} = res.locals 
+    User.destroy({where: {id: userId} })
         .then(num => {
             if (num == 1) {
                 res.send({
@@ -87,9 +88,9 @@ exports.delete = (req, res) => {
                 });
             } else {
                 res.send({
-                  message: `Cannot delete User with id=${id}. Maybe Tutorial was not found!`
+                  message: `Cannot delete User with id=${userId}. Maybe Tutorial was not found!`
                 });
             }
         })
-        .catch(error => res.status(500).json({ message: error.message || "Could not delete User with id=" + id }))
+        .catch(error => res.status(500).json({ message: error.message || "Could not delete User with id=" + userId }))
 }

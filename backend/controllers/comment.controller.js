@@ -1,11 +1,9 @@
-// const { Op } = require("sequelize/dist");
 const db = require("../models");
 const Comment = db.comment;
 const User = db.user;
-//const Op = db.Sequelize.Op;
 
-// Retrieve all Tutorials from the database.
-exports.findAll = (req, res, next) => {
+// Retrieve all Comments from the database.
+exports.findAll = (req, res) => {
   Comment.findAll({ where: {post_id: req.params.postid}, order: [['createdAt', 'DESC']] })
     .then(data => {
       console.log(data)
@@ -17,8 +15,9 @@ exports.findAll = (req, res, next) => {
 };
 
 // Create and Save a new Comment
-exports.create = (req, res, next) => {
-  User.findOne({where: {id: req.body.formData.id} })
+exports.create = (req, res) => {
+  const {userId} = res.locals
+  User.findOne({where: {id: userId} })
         .then(user => {
           // Create a Comment
           const comment = {

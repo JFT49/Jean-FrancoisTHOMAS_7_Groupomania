@@ -48,7 +48,7 @@ function Post(props) {
  
 
   const sendPost = (e) => {
-    e.preventDefault()
+    //e.preventDefault()
     async function fetchPost() {
       
       setDataLoading(true)

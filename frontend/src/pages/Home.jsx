@@ -4,8 +4,6 @@ import { Wrapper } from '../utils/Atoms'
 import { useEffect, useState } from 'react'
 import { Loader } from '../utils/Atoms'
 
-  // import { PostList }  from '../datas/PostList'
-
 function formatDate(object) {
   const j = object.length
   for (let i=0; i<j; i++){
