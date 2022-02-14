@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
     image: {
       type: Sequelize.STRING
     }
-  });
+  })
 
-  return Post;
-};
+  return Post
+}

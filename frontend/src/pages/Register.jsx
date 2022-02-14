@@ -4,7 +4,6 @@ import Header from '../components/Header'
 import { Wrapper } from '../utils/Atoms'
 import React, { useState } from 'react'
 
-
 const LoginForm = styled.form`
     font-size: 40px;
     color: ${colors.secondary};   
@@ -39,8 +38,6 @@ function Register() {
       } catch (error) {
         console.log('===== error =====', error)
         setError(true)
-      } finally {
-  
       }
     }
     fetchPost()
@@ -55,17 +52,17 @@ function Register() {
       <Header scalevalue={summary} />
       <Wrapper>
         <LoginForm onSubmit={sendPost} novalidate>
-            <label for="name"> Name :  </label>
-            <input onChange={(e) => setFormData({...formData, name: e.target.value})}  value={formData.name} name="name" id="name" required style={{fontSize: 25}} />
-            <br/>
-            <label for="email"> Email :  </label>
-            <input onChange={(e) => setFormData({...formData, email: e.target.value})}  value={formData.email} name="email" id="email" type="email" required style={{fontSize: 25}} />
-            <br/>
-            <label for="password"> Password :  </label>
-            <input onChange={(e) => setFormData({...formData, password: e.target.value})}  value={formData.password} name="password" id="password" required style={{fontSize: 25}} />
-            <br/>
-            <button type="submit" style={{fontSize: 25}}  > Send </button>
-            <br/>
+          <label for="name"> Name :  </label>
+          <input onChange={(e) => setFormData({...formData, name: e.target.value})}  value={formData.name} name="name" id="name" required style={{fontSize: 25}} />
+          <br/>
+          <label for="email"> Email :  </label>
+          <input onChange={(e) => setFormData({...formData, email: e.target.value})}  value={formData.email} name="email" id="email" type="email" required style={{fontSize: 25}} />
+          <br/>
+          <label for="password"> Password :  </label>
+          <input onChange={(e) => setFormData({...formData, password: e.target.value})}  value={formData.password} name="password" id="password" required style={{fontSize: 25}} />
+          <br/>
+          <button type="submit" style={{fontSize: 25}}  > Send </button>
+          <br/>
         </LoginForm>
         <br/>
         <div class="text"><pre>{message.message}</pre></div>

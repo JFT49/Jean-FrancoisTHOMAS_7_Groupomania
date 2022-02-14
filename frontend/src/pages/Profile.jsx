@@ -71,14 +71,12 @@ function Profile() {
     return <span>Oups il y a eu un problème</span>
   }
 
-
   if ( profile ){
     return (
       <div>
         <Header scalevalue={summary} />
         {isDataLoading ? ( <Loader /> ) : (
         <Wrapper>
-          
             <ProfileText>
                 Name : { profile.user.name } <br />
                 Mail : { profile.user.email }
@@ -93,10 +91,8 @@ function Profile() {
         )}
       </div>
     )
-  } else {
-    return (<div></div>)
-  }
-  
+  } 
+  else { return (<div></div>) }
 }
 
 export default Profile

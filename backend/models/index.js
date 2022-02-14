@@ -1,6 +1,6 @@
-const dbConfig = require("../config/db.config.js");
+const dbConfig = require("../config/db.config.js")
 
-const Sequelize = require("sequelize");
+const Sequelize = require("sequelize")
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
@@ -17,15 +17,15 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     typeCast: dbConfig.dialectOptions.typeCast
   },
   timezone: dbConfig.timezone
-});
+})
 
-const db = {};
+const db = {}
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+db.Sequelize = Sequelize
+db.sequelize = sequelize
 
-db.post = require("./Post.model.js")(sequelize, Sequelize);
-db.comment = require("./Comment.model.js")(sequelize, Sequelize);
-db.user = require("./User.model.js")(sequelize, Sequelize);
+db.post = require("./Post.model.js")(sequelize, Sequelize)
+db.comment = require("./Comment.model.js")(sequelize, Sequelize)
+db.user = require("./User.model.js")(sequelize, Sequelize)
 
-module.exports = db;
+module.exports = db

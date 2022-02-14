@@ -6,7 +6,6 @@ import { Wrapper } from '../utils/Atoms'
 const ErrorTitle = styled.h1`
   font-weight: 300;
 `
-
 const ErrorSubtitle = styled.h2`
   font-weight: 300;
   color: ${colors.secondary};
