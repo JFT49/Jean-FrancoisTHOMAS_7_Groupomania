@@ -35,7 +35,7 @@ exports.findAll = (req, res) => {
 
 // Find a single Post with an id
 exports.findOne = (req, res) => {
-    const postid = req.params.postid;
+    const postid = req.params.postid
     Post.findByPk(postid)
       .then(data => {
         if (data) { res.send(data) }
@@ -50,9 +50,8 @@ exports.delete = (req, res) => {
   Post.destroy({where: {id: postid} })
     .then(num => {
       if (num == 1) { 
-        res.status(200).send({ message: "Post was deleted successfully!" }) 
-        Comment.destroy({ where: {post_id: postid}, truncate: false })
-          .then(nums => { res.status(200).send({ message: `${nums} Comments were deleted successfully!` }) })
+        Comment.destroy({ where: {post_id: postid} })
+          .then(nums => { res.status(200).send({ message: `Post was deleted successfully! And ${nums} comments were deleted successfully!` }) })
           .catch(err => { res.status(500).send({ message: err.message || "Some error occurred while removing comments." }) })
       }
       else { res.send({ message: `Cannot delete Post with id=${postid}. Maybe Post was not found!` }) }

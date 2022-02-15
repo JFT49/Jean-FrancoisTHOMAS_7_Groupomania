@@ -9,12 +9,12 @@ const HomeLogo = styled.img`
 const NavContainer = styled.nav`
   padding: 30px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
 `
 const Title = styled.h1`
     font-size: 40px;
-    color: ${colors.secondary};
+    color: ${colors.primary};
 `
 
 function Header(props) {

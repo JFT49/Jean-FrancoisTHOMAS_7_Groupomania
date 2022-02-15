@@ -3,7 +3,7 @@ import colors from '../utils/Colors'
 import Header from '../components/Header'
 import { Wrapper } from '../utils/Atoms'
 import React, { useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 
 const LoginForm = styled.form`
     font-size: 40px;
@@ -37,7 +37,7 @@ function Login() {
         if (signup.token) {
         localStorage.clear()
         localStorage.setItem('objet', JSON.stringify(signup))
-        navigate(`/Home`);
+        navigate(`/Home`)
         }
       } catch (error) {
         console.log('===== error =====', error)

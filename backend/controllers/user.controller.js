@@ -61,7 +61,6 @@ exports.login = (req, res) => {
 
 exports.profile = (req, res) => {           // res.locals est transmis ppar la req
     const {userId} = res.locals    
-    console.log(userId)
     User.findOne({where: {id: userId} })
         .then(user => {
             if (!user) {
