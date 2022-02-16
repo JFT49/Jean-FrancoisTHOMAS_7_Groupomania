@@ -48,10 +48,10 @@ function Post(props) {
   const [isDataLoading, setDataLoading] = useState(false)
   const [fileImage, setImage] = useState({})
   const [formMessage, setFormMessage] = useState({ message: "" })
-  const [thisUser, setUser] = useState(null)
   const handleMouseOver = (e) => { e.target.style.color = 'darkred' }
   const handleMouseLeave = (e) => { e.target.style.color = colors.secondary }
   const storage = JSON.parse(localStorage.getItem('objet'))
+  const [thisUser, setUser] = useState({name:"", admin:false})
 
   const sendPost = () => {
     async function fetchPost() {
@@ -108,13 +108,15 @@ function Post(props) {
       } 
       const response = await fetch(`http://localhost:8000/api/user/profile`, myInit)
       const profile = await response.json()
-      setUser(profile.user.name)   
+      setUser({name: profile.user.name, admin: profile.user.admin})  
     } catch (error) {
       console.log('===== error =====', error)
       setError(true)
     }
   }
-  UserControle()
+  if (!thisUser.name.length) {
+    UserControle()
+  }
 
   return (
     <PostContainer>
@@ -132,7 +134,7 @@ function Post(props) {
       {isDataLoading ? ( <Loader /> ) : (
         PostList.map((post) =>
           <Carte key={post.id}>
-          {thisUser === post.author 
+          {thisUser.name === post.author || thisUser.admin
           ? ( 
               <PostCross onClick={() => DeletePost(post.id)} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
                 X

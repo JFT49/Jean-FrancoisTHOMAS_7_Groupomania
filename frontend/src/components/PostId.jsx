@@ -43,6 +43,7 @@ const PostForm = styled.form`
 `
 
 function PostId(props) {
+  
   const Post = props.scalevalue
   const CommentList = props.scalevalue1
   const storage = JSON.parse(localStorage.getItem('objet'))
@@ -52,7 +53,7 @@ function PostId(props) {
   const { postid } = useParams()
   const handleMouseOver = (e) => { e.target.style.color = 'darkred' }
   const handleMouseLeave = (e) => { e.target.style.color = colors.secondary }
-  const [thisUser, setUser] = useState(null)
+  const [thisUser, setUser] = useState({name:"", admin:false})
 
   const sendComment = (e) => {
     async function fetchPost() {
@@ -109,13 +110,15 @@ function PostId(props) {
       } 
       const response = await fetch(`http://localhost:8000/api/user/profile`, myInit)
       const profile = await response.json()
-      setUser(profile.user.name)   
+      setUser({name: profile.user.name, admin: profile.user.admin})  
     } catch (error) {
       console.log('===== error =====', error)
       setError(true)
     }
   }
-  UserControle()
+  if (!thisUser.name.length) {
+    UserControle()
+  }
 
   return (
     <PostContainer>
@@ -137,7 +140,7 @@ function PostId(props) {
       {isDataLoading ? ( <Loader /> ) : (
         CommentList.map((com) =>
           <Carte key={com.id}>
-          {thisUser === com.author 
+          {thisUser.name === com.author || thisUser.admin
           ? ( 
               <PostCross onClick={() => DeleteComment(com.id)} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
                 X

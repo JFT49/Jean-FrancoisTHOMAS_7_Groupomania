@@ -24,7 +24,9 @@ export const StyledLink = styled(Link)`
 `
 
 function Header(props) {
+
   const sumary = props.scalevalue
+  
   return (
     <NavContainer>
         <HomeLogo src={Logo} />

@@ -3,6 +3,7 @@ import colors from '../utils/Colors'
 import Header from '../components/Header'
 import { Wrapper } from '../utils/Atoms'
 import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom"
 
 const LoginForm = styled.form`
     font-size: 40px;
@@ -13,6 +14,7 @@ const summary = {title:'Register', menu:[ 'Login']}
 
 function Register() {
 
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -30,11 +32,14 @@ function Register() {
         var myInit = {
           method: 'POST',
           body: JSON.stringify({formData}),
-          headers: new Headers({'Content-Type': 'application/json'}),
+          headers: new Headers({'Content-Type': 'application/json'})
         }
         const response = await fetch(`http://localhost:8000/api/user/signup`, myInit)
         const message = await response.json()
         setSignup(message)
+        if ( message.created ) {
+          navigate(`/Login`)
+        }
       } catch (error) {
         console.log('===== error =====', error)
         setError(true)

@@ -25,3 +25,14 @@ export const Wrapper = styled.div`
   background-color: ${colors.backgroundLight};
   align-items: center;
 `
+
+export function formatDate(object) {
+  if (object.length) {
+    const j = object.length
+    for (let i=0; i<j; i++){
+      object[i].createdAt = object[i].createdAt.substring(0,10) + " à " + object[i].createdAt.substring(11,16)
+    }
+  } else {
+    object.createdAt = object.createdAt.substring(0,10) + " à " + object.createdAt.substring(11,16)
+  }
+}

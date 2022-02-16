@@ -14,13 +14,10 @@ const summary = {title:'Login', menu:[ 'Register']}
 
 function Login() {
 
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: "",
-    password: ""
-  })
+  const navigate = useNavigate()
   const [error, setError] = useState(null)
   const [signup, setSignup] = useState([])
+  const [formData, setFormData] = useState({ name: "", password: "" })
 
   const sendPost = (e) => {
     e.preventDefault()    // empêche le reload

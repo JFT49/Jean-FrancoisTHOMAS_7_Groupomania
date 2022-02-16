@@ -1,24 +1,13 @@
 import Header from '../components/Header'
-import { Wrapper } from '../utils/Atoms'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { Loader } from '../utils/Atoms'
+import { Loader, formatDate, Wrapper } from '../utils/Atoms'
 import PostId from '../components/PostId'
-
-function formatDate(object) {
-  if (object.length) {
-    const j = object.length
-    for (let i=0; i<j; i++){
-      object[i].createdAt = object[i].createdAt.substring(0,10) + " à " + object[i].createdAt.substring(11,16)
-    }
-  } else {
-    object.createdAt = object.createdAt.substring(0,10) + " à " + object.createdAt.substring(11,16)
-  }
-}
 
 const summary = {title:'Comments', menu:['Profile', 'Home']}
  
 function Comments() {   
+  
   const [isDataLoading, setDataLoading] = useState(false)
   const [error, setError] = useState(null)
   const [postSingle, setPostSingle] = useState([])

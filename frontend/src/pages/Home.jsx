@@ -1,15 +1,7 @@
 import Header from '../components/Header'
 import Post from '../components/Post'
-import { Wrapper } from '../utils/Atoms'
 import { useEffect, useState } from 'react'
-import { Loader } from '../utils/Atoms'
-
-function formatDate(object) {
-  const j = object.length
-  for (let i=0; i<j; i++){
-    object[i].createdAt = object[i].createdAt.substring(0,10) + " à " + object[i].createdAt.substring(11,16)
-  }
-}
+import { Loader, formatDate, Wrapper } from '../utils/Atoms'
 
 const summary = {title:'Home', menu:['Profile']}
 

@@ -1,9 +1,8 @@
 import styled from 'styled-components'
 import colors from '../utils/Colors'
 import Header from '../components/Header'
-import { Wrapper } from '../utils/Atoms'
 import { useEffect, useState } from 'react'
-import { Loader } from '../utils/Atoms'
+import { Loader, Wrapper } from '../utils/Atoms'
 import { Link } from 'react-router-dom'
 
 const ProfileText = styled.div`
@@ -22,7 +21,6 @@ function Unregister() {
       const storage = JSON.parse(localStorage.getItem('objet'))
         var myInit = {
           method: 'DELETE',
-          body: localStorage.getItem('objet'),
           headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
         } 
       const response = await fetch(`http://localhost:8000/api/user/delete`, myInit)
@@ -30,11 +28,12 @@ function Unregister() {
       console.log(resp)
     } catch (error) {
       console.log('===== error =====', error)
+    } finally {
+      localStorage.clear()
+      alert('You are Unregister !')
     }
   }
   fetchDelete()
-  localStorage.clear()
-  alert('You are Unregister !')
 }
 
 const summary = {title:'Profile', menu:['Home']}

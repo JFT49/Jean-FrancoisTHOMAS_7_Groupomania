@@ -20,7 +20,8 @@ exports.signup = (req, res) => {
             const user = new User({
                 name: req.body.formData.name,
                 email: req.body.formData.email,
-                password: hash
+                password: hash,
+                admin: false
             })
             if (Validation.validate(req.body.formData.password)) {    //retourne TRUE si respecte les critéres de Validation
             user.save()
@@ -57,7 +58,7 @@ exports.login = (req, res) => {
             .catch(error => res.status(500).json({ error }))
         })
         .catch(error => res.status(500).json({ error }))
-};
+}
 
 exports.profile = (req, res) => {           // res.locals est transmis ppar la req
     const {userId} = res.locals    
@@ -78,11 +79,11 @@ exports.delete = (req, res) => {             // res.locals est transmis par la r
             if (num == 1) {
                 res.send({
                     message: "User was deleted successfully!"
-                });
+                })
             } else {
                 res.send({
                     message: `Cannot delete User with id=${userId}. Maybe Tutorial was not found!`
-                });
+                })
             }
         })
         .catch(error => res.status(500).json({ message: error.message || "Could not delete User with id=" + userId }))

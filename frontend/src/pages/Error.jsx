@@ -10,7 +10,7 @@ const ErrorSubtitle = styled.h2`
   font-weight: 300;
   color: ${colors.secondary};
 `
-const summary = {title:'Error', menu:['Login', 'Register', 'Home']}
+const summary = {title:'Error', menu:['Login', 'Register']}
 
 function Error() {
   return (
