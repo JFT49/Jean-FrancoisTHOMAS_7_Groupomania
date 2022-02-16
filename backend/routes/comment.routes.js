@@ -4,5 +4,6 @@ var router = require("express").Router()
 
 router.get("/:postid", auth, comment.findAll)
 router.post("/:postid", auth, comment.create)
+router.delete("/:commentid", auth, comment.delete)
 
 module.exports = router

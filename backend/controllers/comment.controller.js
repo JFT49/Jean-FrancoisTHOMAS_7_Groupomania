@@ -34,3 +34,14 @@ exports.create = (req, res) => {
       res.status(500).send({ message: err.message || "Some error occurred while creating the Comment." })
     }) 
 }
+
+// Delete a single comment with an id
+exports.delete = (req, res) => {
+  const comid = req.params.commentid
+  Comment.destroy({where: {id: comid} })
+    .then(num => {
+      if (num == 1) { res.status(200).send({ message: `Comment with id: ${comid} was deleted successfully!` }) }
+      else { res.send({ message: `Cannot delete comment with id=${comid}. Maybe comment was not found!` }) }
+    })
+    .catch(error => { res.status(500).json({ message: error.message || "Could not delete Post with id=" + postid }) })
+}

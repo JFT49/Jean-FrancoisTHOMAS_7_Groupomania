@@ -6,7 +6,20 @@ import { Loader } from '../utils/Atoms'
 
 const PostContainer = styled.div`
   padding: 30px;
-
+`
+const Carte = styled.div`
+  position: relative;
+  margin: 15px 0 15px 0;
+`
+const PostCross = styled.button`
+  cursor: pointer;
+  background: none;
+  border: 0px;
+  position: absolute;
+  right: 30px;
+  top: 10px;
+  font-size: 40px;
+  color: ${colors.secondary};
 `
 const PostDiv = styled.div`
   padding: 30px;
@@ -37,6 +50,9 @@ function PostId(props) {
   const [error, setError] = useState(null)
   const [isDataLoading, setDataLoading] = useState(false)
   const { postid } = useParams()
+  const handleMouseOver = (e) => { e.target.style.color = 'darkred' }
+  const handleMouseLeave = (e) => { e.target.style.color = colors.secondary }
+  const [thisUser, setUser] = useState(null)
 
   const sendComment = (e) => {
     async function fetchPost() {
@@ -64,6 +80,43 @@ function PostId(props) {
     }
   }
 
+  const DeleteComment = (comId) => {
+    async function fetchDelete() {
+      try { 
+        var myInit = {
+          method: 'DELETE',
+          headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
+        } 
+        const call = await fetch(`http://localhost:8000/api/comment/${comId}`, myInit)
+        const response = await call.json() 
+        console.log(response)
+      } catch (error) {
+        console.log('===== error =====', error)
+        setError(true)
+      } finally {
+        window.location.reload()
+      }
+    }
+    fetchDelete()
+    if (error) { return <span>Oups il y a eu un problème</span> }
+  }
+
+  async function UserControle() {
+    try { 
+      var myInit = {
+        method: 'GET',
+        headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
+      } 
+      const response = await fetch(`http://localhost:8000/api/user/profile`, myInit)
+      const profile = await response.json()
+      setUser(profile.user.name)   
+    } catch (error) {
+      console.log('===== error =====', error)
+      setError(true)
+    }
+  }
+  UserControle()
+
   return (
     <PostContainer>
       <PostDiv key={Post.id} style={{backgroundColor: colors.background}}>
@@ -83,12 +136,22 @@ function PostId(props) {
       </PostDiv> 
       {isDataLoading ? ( <Loader /> ) : (
         CommentList.map((com) =>
-          <PostDiv key={com.id}>
+          <Carte key={com.id}>
+          {thisUser === com.author 
+          ? ( 
+              <PostCross onClick={() => DeleteComment(com.id)} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
+                X
+              </PostCross> 
+            ) 
+          : ( null )
+          }
+          <PostDiv>
             <PostText >
               {com.text} <br />
               De {com.author} le {com.createdAt}
             </PostText>
           </PostDiv>
+          </Carte>
         )
       )}
     </PostContainer>
