@@ -43,7 +43,7 @@ function Register() {
           if(message.error.fields.email) { setSignup({message: "Email: " + message.error.fields.email + "\ndéjà utilisé !"}) }
         }
         else { setSignup(message) }
-        if ( message.created ) { navigate(`/Login`) }
+        if ( message.created ) { navigate(`/Login`) } 
       }
       catch (error) {
         console.log('===== error =====', error)
