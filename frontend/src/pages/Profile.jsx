@@ -25,12 +25,11 @@ function Unregister() {
         } 
       const response = await fetch(`http://localhost:8000/api/user/delete`, myInit)
       const resp = await response.json()
-      console.log(resp)
+      alert( resp.message )
     } catch (error) {
       console.log('===== error =====', error)
     } finally {
       localStorage.clear()
-      alert('You are Unregister !')
     }
   }
   fetchDelete()

@@ -1,18 +1,21 @@
 const db = require("../models")
 const User = db.user
+const Post = db.post
+const Comment = db.comment
 const bcrypt = require('bcrypt')        //BCRYPT : package de chiffrement (hash)
 const jwt = require('jsonwebtoken')     //JSONWEBTOKEN : gestion token d'identification
 require('dotenv').config()              //DOTENV : pour le gestion des variables d'environneemnts
 
-const passwordValidator = require('password-validator');  // Plugin password-validator
-var Validation = new passwordValidator();
+const passwordValidator = require('password-validator')  // Plugin password-validator
+const PostModel = require("../models/Post.model")
+var Validation = new passwordValidator()
 Validation
 .is().min(4)                                    // Minimum length 4
 .is().max(30)                                   // Maximum length 30
 .has().uppercase()                              // Must have uppercase letters
 .has().lowercase()                              // Must have lowercase letters
 .has().digits()                                 // Must have digits
-.has().not().spaces();                          // Should not have spaces
+.has().not().spaces()                           // Should not have spaces
 
 exports.signup = (req, res) => {
     bcrypt.hash(req.body.formData.password, 10)      //Hashage du password avec BCRYPT
@@ -74,17 +77,30 @@ exports.profile = (req, res) => {           // res.locals est transmis ppar la r
 
 exports.delete = (req, res) => {             // res.locals est transmis par la req
     const {userId} = res.locals 
-    User.destroy({where: {id: userId} })
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "User was deleted successfully!"
+    var reponse =""
+    User.findOne({where: {id: userId} })
+        .then(user => {
+            Post.destroy({where: {author: user.dataValues.name} })
+                .then(num => {
+                    reponse += "Posts deleted : " + num + "\n"
                 })
-            } else {
-                res.send({
-                    message: `Cannot delete User with id=${userId}. Maybe Tutorial was not found!`
+                .catch(error => res.status(500).json({ message: error.message || "Could not delete Posts" }) )
+            Comment.destroy({where: {author: user.dataValues.name} })
+                .then(num => {
+                    reponse += "Comments deleted : " + num + "\n"
                 })
-            }
+                .catch(error => res.status(500).json({ message: error.message || "Could not delete Comments" }) )
+            User.destroy({where: {id: userId} })
+                .then(num => {
+                    if (num == 1) {
+                        reponse += "User was deleted successfully !"
+                        console.log(reponse)
+                        res.status(200).json({ message: reponse })
+                    } else {
+                        res.statut(401).json({ message: `Cannot delete User with id=${userId}. Maybe User was not found!` })
+                    }
+                })
+                .catch(error => res.status(500).json({ message: error.message || "Could not delete User with id=" + userId }))
         })
-        .catch(error => res.status(500).json({ message: error.message || "Could not delete User with id=" + userId }))
+        .catch(error => res.status(500).json({ message: error.message || "Could not find User with id=" + userId }))
 }

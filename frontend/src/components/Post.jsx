@@ -7,6 +7,7 @@ import { Loader, Wrapper } from '../utils/Atoms'
 const Carte = styled.div`
   position: relative;
   width: 100%;
+  padding: 0 10px;
 `
 const PostDiv1 = styled.div`
   padding: 25px 10px;
@@ -40,7 +41,8 @@ const PostCross = styled.button`
 const PostImg = styled.img`
   max-height: 200px;
 `
-const PostText = styled.p`
+const PostText = styled.h2`
+  font-weight: normal;
   font-size: 40px;
   white-space: normal;
   color: ${colors.secondary};
@@ -135,7 +137,8 @@ function Post(props) {
           <label for="message"> New Post :  </label>
           <textarea onChange={(e) => setFormMessage({...formMessage, message: e.target.value})}  value={formMessage.message} name="message" id="message" required></textarea>
           <br/>
-          <label for="image"> Image :  </label>
+          <label for="image"> Image :  </label> 
+          <br/>
           <input onChange={(e) => setImage({...fileImage, image: e.target.files[0]})}  name="image" id="image" type="file" accept="image/png, image/jpeg, image/jpg, image/gif" style={{fontSize: 25}}/>
           <br/>
           <button type="submit" style={{fontSize: 25}}  > Send </button>
@@ -154,7 +157,7 @@ function Post(props) {
           }
           <Link to={`/Comments/${post.id}`} style={{color:'inherit', textDecoration:'inherit'}}>
             <PostDiv1>
-              <PostImg src={post.image} />
+              { !post.image ? ( null ) : ( <PostImg src={post.image} alt={"Illustration d'un post (id:" + post.id + ")"} /> ) } 
               <PostText>
                 {post.text} <br />
                 De {post.author} le {post.createdAt}

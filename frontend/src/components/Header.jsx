@@ -25,7 +25,7 @@ function Header(props) {
   return (
     <Wrapper>
       <div>
-        <HomeLogo src={Logo} />
+        <HomeLogo src={Logo} alt="Logo Groupomania"/>
       </div>
         <Title>{sumary.title}</Title>
           {sumary.menu.map((element, index) =>

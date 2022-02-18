@@ -23,7 +23,7 @@ function Register() {
   })
 
   const [error, setError] = useState(null)
-  const [message, setSignup] = useState([])
+  const [response, setSignup] = useState([])
 
   const sendPost = (e) => {
     e.preventDefault()    // empêche le reload
@@ -35,13 +35,17 @@ function Register() {
           body: JSON.stringify({formData}),
           headers: new Headers({'Content-Type': 'application/json'})
         }
-        const response = await fetch(`http://localhost:8000/api/user/signup`, myInit)
-        const message = await response.json()
-        setSignup(message)
-        if ( message.created ) {
-          navigate(`/Login`)
+        const resp = await fetch(`http://localhost:8000/api/user/signup`, myInit)
+        const message = await resp.json()
+        console.log(message)
+        if (message.error){ 
+          if(message.error.fields.name) { setSignup({message: "Nom: " + message.error.fields.name + "\ndéjà utilisé !"}) }
+          if(message.error.fields.email) { setSignup({message: "Email: " + message.error.fields.email + "\ndéjà utilisé !"}) }
         }
-      } catch (error) {
+        else { setSignup(message) }
+        if ( message.created ) { navigate(`/Login`) }
+      }
+      catch (error) {
         console.log('===== error =====', error)
         setError(true)
       }
@@ -70,7 +74,7 @@ function Register() {
         <br/>
       </LoginForm>
       <br/>
-      <div class="text"><pre>{message.message}</pre></div>
+        <div class="text"><pre>{response.message}</pre></div> 
     </Wrapper>
   )
 }
