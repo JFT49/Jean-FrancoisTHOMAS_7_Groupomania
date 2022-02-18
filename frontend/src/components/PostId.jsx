@@ -2,33 +2,28 @@ import styled from 'styled-components'
 import colors from '../utils/Colors'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Loader } from '../utils/Atoms'
+import { Loader, Wrapper } from '../utils/Atoms'
 
-const PostContainer = styled.div`
-  padding: 30px;
-`
-const Carte = styled.div`
-  position: relative;
-  margin: 15px 0 15px 0;
-`
 const PostCross = styled.button`
+  position: absolute;
   cursor: pointer;
   background: none;
   border: 0px;
-  position: absolute;
-  right: 30px;
-  top: 10px;
+  right: 15px;
+  top: 15px;
   font-size: 40px;
   color: ${colors.secondary};
 `
 const PostDiv = styled.div`
-  padding: 30px;
+  position: relative;
+  padding: 25px 10px;
   margin: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
   border: solid;
   border-radius: 30px;
+  width: 100%;
 `
 const PostText = styled.p`
   font-size: 40px;
@@ -121,7 +116,7 @@ function PostId(props) {
   }
 
   return (
-    <PostContainer>
+    <Wrapper>
       <PostDiv key={Post.id} style={{backgroundColor: colors.background}}>
         <PostImg src={Post.image} />
         <PostText>
@@ -139,25 +134,23 @@ function PostId(props) {
       </PostDiv> 
       {isDataLoading ? ( <Loader /> ) : (
         CommentList.map((com) =>
-          <Carte key={com.id}>
-          {thisUser.name === com.author || thisUser.admin
-          ? ( 
-              <PostCross onClick={() => DeleteComment(com.id)} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
-                X
-              </PostCross> 
-            ) 
-          : ( null )
-          }
-          <PostDiv>
-            <PostText >
-              {com.text} <br />
-              De {com.author} le {com.createdAt}
-            </PostText>
+          <PostDiv key={com.id}>
+            {thisUser.name === com.author || thisUser.admin
+            ? ( 
+                <PostCross onClick={() => DeleteComment(com.id)} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
+                  X
+                </PostCross> 
+              ) 
+            : ( null )
+            }
+              <PostText >
+                {com.text} <br />
+                De {com.author} le {com.createdAt}
+              </PostText>
           </PostDiv>
-          </Carte>
         )
       )}
-    </PostContainer>
+    </Wrapper>
   )
 }
 

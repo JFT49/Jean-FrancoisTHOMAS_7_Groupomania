@@ -41,14 +41,12 @@ function Home() {
   }
 
   return (
-    <div>
+    <Wrapper>
       <Header scalevalue={summary} />
-      <Wrapper>
-        {isDataLoading ? ( <Loader /> ) : (
-          <Post scalevalue={postList} />
-        )} 
-      </Wrapper>
-    </div>
+      {isDataLoading ? ( <Loader /> ) : (
+        <Post scalevalue={postList} />
+      )} 
+    </Wrapper>
   )
 }
 

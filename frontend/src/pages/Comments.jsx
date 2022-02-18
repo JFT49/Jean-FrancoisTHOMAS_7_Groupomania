@@ -62,14 +62,12 @@ function Comments() {
   }
 
   return (
-    <div>
+    <Wrapper>
       <Header scalevalue={summary} />
-      <Wrapper>
-        {isDataLoading ? ( <Loader /> ) : (
-          <PostId scalevalue={postSingle} scalevalue1={commentList} />
-        )} 
-      </Wrapper>
-    </div>
+      {isDataLoading ? ( <Loader /> ) : (
+        <PostId scalevalue={postSingle} scalevalue1={commentList} />
+      )} 
+    </Wrapper>
   )
 }
 

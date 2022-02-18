@@ -2,30 +2,38 @@ import styled from 'styled-components'
 import colors from '../utils/Colors'
 import { Link } from 'react-router-dom'
 import React, { useState } from 'react'
-import { Loader } from '../utils/Atoms'
+import { Loader, Wrapper } from '../utils/Atoms'
 
-const PostContainer = styled.div`
-  padding: 30px;
-`
 const Carte = styled.div`
   position: relative;
-  margin: 15px 0 15px 0;
+  width: 100%;
 `
-const PostDiv = styled.div`
-  padding: 30px;
+const PostDiv1 = styled.div`
+  padding: 25px 10px;
+  margin: 15px ;
   display: flex;
   flex-direction: column;
   align-items: center;
   border: solid;
   border-radius: 30px;
 `
+const PostDiv = styled.div`
+  padding: 25px 10px;
+  margin: 15px ;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: solid;
+  border-radius: 30px;
+  width:100%;
+`
 const PostCross = styled.button`
   cursor: pointer;
   background: none;
   border: 0px;
   position: absolute;
-  right: 20px;
-  top: 10px;
+  right: 30px;
+  top: 30px;
   font-size: 40px;
   color: ${colors.secondary};
 `
@@ -34,9 +42,11 @@ const PostImg = styled.img`
 `
 const PostText = styled.p`
   font-size: 40px;
+  white-space: normal;
   color: ${colors.secondary};
 `
 const PostForm = styled.form`
+  margin: 10px;
   font-size: 40px;
   color: ${colors.secondary};   
 `
@@ -119,7 +129,7 @@ function Post(props) {
   }
 
   return (
-    <PostContainer>
+    <Wrapper>
       <PostDiv>
         <PostForm onSubmit={sendPost} >
           <label for="message"> New Post :  </label>
@@ -143,18 +153,19 @@ function Post(props) {
           : ( null )
           }
           <Link to={`/Comments/${post.id}`} style={{color:'inherit', textDecoration:'inherit'}}>
-            <PostDiv>
+            <PostDiv1>
               <PostImg src={post.image} />
               <PostText>
                 {post.text} <br />
                 De {post.author} le {post.createdAt}
               </PostText>
-            </PostDiv>
+            </PostDiv1>
           </Link>
           </Carte>
         )  
       )}
-    </PostContainer>
+    </Wrapper>
+
   )
 }
 

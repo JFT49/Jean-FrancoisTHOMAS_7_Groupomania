@@ -10,19 +10,17 @@ const ErrorSubtitle = styled.h2`
   font-weight: 300;
   color: ${colors.secondary};
 `
-const summary = {title:'Error', menu:['Login', 'Register']}
+const summary = {title:'Error 404', menu:[]}
 
 function Error() {
   return (
-    <div>
+    <Wrapper>
       <Header scalevalue={summary} />
-      <Wrapper>
-        <ErrorTitle>Oups...</ErrorTitle>
-        <ErrorSubtitle>
-          Il semblerait que la page que vous cherchez n’existe pas
-        </ErrorSubtitle>
-      </Wrapper>
-    </div>
+      <ErrorTitle>Oups...</ErrorTitle>
+      <ErrorSubtitle>
+        Il semblerait que la page que vous cherchez n’existe pas
+      </ErrorSubtitle>
+    </Wrapper>
   )
 }
 

@@ -6,6 +6,7 @@ import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom"
 
 const LoginForm = styled.form`
+    padding: 20px;
     font-size: 40px;
     color: ${colors.secondary};
 `
@@ -49,23 +50,21 @@ function Login() {
   }
 
   return (
-    <div>
+    <Wrapper>
       <Header scalevalue={summary} />
-      <Wrapper>
-        <LoginForm onSubmit={sendPost} novalidate>
-          <label for="name"> Name :  </label>
-          <input onChange={(e) => setFormData({...formData, name: e.target.value})}  value={formData.name} name="name" id="name" required style={{fontSize: 25}} />
-          <br/>
-          <label for="password"> Password :  </label>
-          <input onChange={(e) => setFormData({...formData, password: e.target.value})}  value={formData.password} name="password" id="password" required style={{fontSize: 25}} />
-          <br/>
-          <button type="submit" style={{fontSize: 25}}  > Send </button>
-          <br/>
-        </LoginForm>
+      <LoginForm onSubmit={sendPost} novalidate>
+        <label for="name"> Name :  </label>
+        <input onChange={(e) => setFormData({...formData, name: e.target.value})}  value={formData.name} name="name" id="name" required style={{fontSize: 25}} />
         <br/>
-        <div class="text"><pre>{signup.message}</pre></div>
-      </Wrapper>
-    </div>
+        <label for="password"> Password :  </label>
+        <input onChange={(e) => setFormData({...formData, password: e.target.value})}  value={formData.password} name="password" id="password" required style={{fontSize: 25}} />
+        <br/>
+        <button type="submit" style={{fontSize: 25}}  > Send </button>
+        <br/>
+      </LoginForm>
+      <br/>
+      <div class="text"><pre>{signup.message}</pre></div>
+    </Wrapper>
   )
 }
 

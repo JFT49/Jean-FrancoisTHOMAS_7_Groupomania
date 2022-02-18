@@ -6,8 +6,9 @@ import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom"
 
 const LoginForm = styled.form`
-    font-size: 40px;
-    color: ${colors.secondary};   
+  padding: 20px;
+  font-size: 40px;
+  color: ${colors.secondary};   
 `
 
 const summary = {title:'Register', menu:[ 'Login']}
@@ -53,26 +54,24 @@ function Register() {
   }
 
   return (
-    <div>
+    <Wrapper>
       <Header scalevalue={summary} />
-      <Wrapper>
-        <LoginForm onSubmit={sendPost} novalidate>
-          <label for="name"> Name :  </label>
-          <input onChange={(e) => setFormData({...formData, name: e.target.value})}  value={formData.name} name="name" id="name" required style={{fontSize: 25}} />
-          <br/>
-          <label for="email"> Email :  </label>
-          <input onChange={(e) => setFormData({...formData, email: e.target.value})}  value={formData.email} name="email" id="email" type="email" required style={{fontSize: 25}} />
-          <br/>
-          <label for="password"> Password :  </label>
-          <input onChange={(e) => setFormData({...formData, password: e.target.value})}  value={formData.password} name="password" id="password" required style={{fontSize: 25}} />
-          <br/>
-          <button type="submit" style={{fontSize: 25}}  > Send </button>
-          <br/>
-        </LoginForm>
+      <LoginForm onSubmit={sendPost} novalidate>
+        <label for="name"> Name :  </label>
+        <input onChange={(e) => setFormData({...formData, name: e.target.value})}  value={formData.name} name="name" id="name" required style={{fontSize: 25}} />
         <br/>
-        <div class="text"><pre>{message.message}</pre></div>
-      </Wrapper>
-    </div>
+        <label for="email"> Email :  </label>
+        <input onChange={(e) => setFormData({...formData, email: e.target.value})}  value={formData.email} name="email" id="email" type="email" required style={{fontSize: 25}} />
+        <br/>
+        <label for="password"> Password :  </label>
+        <input onChange={(e) => setFormData({...formData, password: e.target.value})}  value={formData.password} name="password" id="password" required style={{fontSize: 25}} />
+        <br/>
+        <button type="submit" style={{fontSize: 25}}  > Send </button>
+        <br/>
+      </LoginForm>
+      <br/>
+      <div class="text"><pre>{message.message}</pre></div>
+    </Wrapper>
   )
 }
 

@@ -72,13 +72,12 @@ function Profile() {
 
   if ( profile ){
     return (
-      <div>
-        <Header scalevalue={summary} />
-        {isDataLoading ? ( <Loader /> ) : (
+      isDataLoading ? ( <Loader /> ) : (
         <Wrapper>
+          <Header scalevalue={summary} />
             <ProfileText>
-                Name : { profile.user.name } <br />
-                Mail : { profile.user.email }
+              Name : { profile.user.name } <br />
+              Mail : { profile.user.email }
             </ProfileText>
             <Link  to={`/Login`} style={{marginTop: 50}}>
             <button onClick={() => Deconnexion()} style={{fontSize: 25}}  > Deconnexion </button>
@@ -87,8 +86,7 @@ function Profile() {
             <button onClick={() => Unregister()} style={{fontSize: 25}}  > Unregister </button>
             </Link>
         </Wrapper>
-        )}
-      </div>
+      )
     )
   } 
   else { return (<div></div>) }

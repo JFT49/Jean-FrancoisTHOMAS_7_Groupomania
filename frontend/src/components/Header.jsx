@@ -2,15 +2,10 @@ import styled from 'styled-components'
 import Logo from '../assets/icon-left-font.png'
 import colors from '../utils/Colors'
 import { Link } from 'react-router-dom'
+import { Wrapper } from '../utils/Atoms'
 
 const HomeLogo = styled.img`
-  height: 80px;
-`
-const NavContainer = styled.nav`
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
 `
 const Title = styled.h1`
     font-size: 40px;
@@ -28,15 +23,15 @@ function Header(props) {
   const sumary = props.scalevalue
   
   return (
-    <NavContainer>
-        <HomeLogo src={Logo} />
-        <Title>{sumary.title}</Title>
+    <Wrapper>
       <div>
+        <HomeLogo src={Logo} />
+      </div>
+        <Title>{sumary.title}</Title>
           {sumary.menu.map((element, index) =>
          <StyledLink key={index} to={"../"+element}> {element} </StyledLink>
           )}
-      </div>
-    </NavContainer>
+    </Wrapper>
   )
 }
 
