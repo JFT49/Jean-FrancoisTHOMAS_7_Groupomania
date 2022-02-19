@@ -39,8 +39,8 @@ function Register() {
         const message = await resp.json()
         console.log(message)
         if (message.error){ 
-          if(message.error.fields.name) { setSignup({message: "Nom: " + message.error.fields.name + "\ndéjà utilisé !"}) }
-          if(message.error.fields.email) { setSignup({message: "Email: " + message.error.fields.email + "\ndéjà utilisé !"}) }
+          if(message.error.fields.name) { setSignup({message: "Nom \"" + message.error.fields.name + "\" déjà utilisé !"}) }
+          if(message.error.fields.email) { setSignup({message: "Email \"" + message.error.fields.email + "\" déjà utilisé !"}) }
         }
         else { setSignup(message) }
         if ( message.created ) { navigate(`/Login`) }  
@@ -61,13 +61,13 @@ function Register() {
     <Wrapper>
       <Header scalevalue={summary} />
       <LoginForm onSubmit={sendPost} novalidate>
-        <label for="name"> Name :  </label>
+        <label htmlFor="name"> Name :  </label>
         <input onChange={(e) => setFormData({...formData, name: e.target.value})}  value={formData.name} name="name" id="name" required style={{fontSize: 25}} />
         <br/>
-        <label for="email"> Email :  </label>
+        <label htmlFor="email"> Email :  </label>
         <input onChange={(e) => setFormData({...formData, email: e.target.value})}  value={formData.email} name="email" id="email" type="email" required style={{fontSize: 25}} />
         <br/>
-        <label for="password"> Password :  </label>
+        <label htmlFor="password"> Password :  </label>
         <input onChange={(e) => setFormData({...formData, password: e.target.value})}  value={formData.password} name="password" id="password" required style={{fontSize: 25}} />
         <br/>
         <button type="submit" style={{fontSize: 25}}  > Send </button>

@@ -80,21 +80,18 @@ exports.delete = (req, res) => {             // res.locals est transmis par la r
     var reponse =""
     User.findOne({where: {id: userId} })
         .then(user => {
-            Post.destroy({where: {author: user.dataValues.name} })
-                .then(num => {
-                    reponse += "Posts deleted : " + num + "\n"
-                })
-                .catch(error => res.status(500).json({ message: error.message || "Could not delete Posts" }) )
             Comment.destroy({where: {author: user.dataValues.name} })
-                .then(num => {
-                    reponse += "Comments deleted : " + num + "\n"
-                })
+                .then(num => { reponse += "Comments user deleted : " + num + "\n" })
                 .catch(error => res.status(500).json({ message: error.message || "Could not delete Comments" }) )
+
+            Post.destroy({where: {author: user.dataValues.name} })
+                .then(num => { reponse += "Posts deleted : " + num + "\n" })
+                .catch(error => res.status(500).json({ message: error.message || "Could not delete Posts" }) )
+
             User.destroy({where: {id: userId} })
                 .then(num => {
                     if (num == 1) {
                         reponse += "User was deleted successfully !"
-                        console.log(reponse)
                         res.status(200).json({ message: reponse })
                     } else {
                         res.statut(401).json({ message: `Cannot delete User with id=${userId}. Maybe User was not found!` })

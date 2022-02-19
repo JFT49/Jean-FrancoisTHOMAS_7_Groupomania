@@ -21,17 +21,21 @@ export const StyledLink = styled(Link)`
 function Header(props) {
 
   const sumary = props.scalevalue
+  const handleMouseOver = (e) => { e.target.style.color = 'black' }
+  const handleMouseLeave = (e) => { e.target.style.color = colors.secondary }
   
   return (
+    <header>
     <Wrapper>
-      <div>
         <HomeLogo src={Logo} alt="Logo Groupomania"/>
-      </div>
         <Title>{sumary.title}</Title>
+        <nav>
           {sumary.menu.map((element, index) =>
-         <StyledLink key={index} to={"../"+element}> {element} </StyledLink>
+            <StyledLink key={index} to={"../"+element} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}> {element} </StyledLink>
           )}
+        </nav>
     </Wrapper>
+    </header>
   )
 }
 

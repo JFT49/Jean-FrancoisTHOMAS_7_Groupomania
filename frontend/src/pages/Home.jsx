@@ -8,7 +8,7 @@ const summary = {title:'Home', menu:['Profile']}
 function Home() {
 
   const [isDataLoading, setDataLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(false)
   const [postList, setPostList] = useState([])
 
   useEffect(() => {

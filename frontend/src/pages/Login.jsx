@@ -4,6 +4,7 @@ import Header from '../components/Header'
 import { Wrapper } from '../utils/Atoms'
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom"
+import { Helmet } from 'react-helmet'
 
 const LoginForm = styled.form`
     padding: 20px;
@@ -16,7 +17,7 @@ const summary = {title:'Login', menu:[ 'Register']}
 function Login() {
 
   const navigate = useNavigate()
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(false)
   const [signup, setSignup] = useState([])
   const [formData, setFormData] = useState({ name: "", password: "" })
 
@@ -50,20 +51,24 @@ function Login() {
   }
 
   return (
+    
     <Wrapper>
+      <Helmet><title>Groupomania</title></Helmet>
       <Header scalevalue={summary} />
+      <section>
       <LoginForm onSubmit={sendPost} novalidate>
-        <label for="name"> Name :  </label>
+        <label htmlFor="name"> Name :  </label>
         <input onChange={(e) => setFormData({...formData, name: e.target.value})}  value={formData.name} name="name" id="name" required style={{fontSize: 25}} />
         <br/>
-        <label for="password"> Password :  </label>
+        <label htmlFor="password"> Password :  </label>
         <input onChange={(e) => setFormData({...formData, password: e.target.value})}  value={formData.password} name="password" id="password" required style={{fontSize: 25}} />
         <br/>
         <button type="submit" style={{fontSize: 25}}  > Send </button>
         <br/>
       </LoginForm>
       <br/>
-      <div class="text"><pre>{signup.message}</pre></div>
+      <div><pre>{signup.message}</pre></div>
+      </section>
     </Wrapper>
   )
 }

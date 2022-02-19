@@ -25,7 +25,13 @@ const PostDiv = styled.div`
   border-radius: 30px;
   width: 100%;
 `
+const PostText1 = styled.p`
+  font-weight: normal;
+  font-size: 40px;
+  color: ${colors.primary};
+`
 const PostText = styled.p`
+  font-weight: normal;
   font-size: 40px;
   color: ${colors.secondary};
 `
@@ -43,7 +49,7 @@ function PostId(props) {
   const CommentList = props.scalevalue1
   const storage = JSON.parse(localStorage.getItem('objet'))
   const [formData, setFormData] = useState({ message: "" })
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(false)
   const [isDataLoading, setDataLoading] = useState(false)
   const { postid } = useParams()
   const handleMouseOver = (e) => { e.target.style.color = 'darkred' }
@@ -118,15 +124,15 @@ function PostId(props) {
   return (
     <Wrapper>
       <PostDiv key={Post.id} style={{backgroundColor: colors.background}}>
-        <PostImg src={Post.image} />
-        <PostText>
+        <PostImg src={Post.image} alt={"Illustration du post (id:" + Post.id + ")"}/>
+        <PostText1>
           {Post.text} <br />
           De {Post.author} le {Post.createdAt}
-        </PostText>
+        </PostText1>
       </PostDiv>
       <PostDiv>
         <PostForm onSubmit={sendComment}>
-          <label for="message"> New Comment :  </label>
+          <label htmlFor="message"> New Comment :  </label>
           <textarea onChange={(e) => setFormData({...formData, message: e.target.value})}  value={formData.message} name="message" id="message" required></textarea>
           <br/>
           <button type="submit" style={{fontSize: 25}}  > Send </button>

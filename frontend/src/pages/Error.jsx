@@ -1,14 +1,12 @@
 import styled from 'styled-components'
-import colors from '../utils/Colors'
 import Header from '../components/Header'
 import { Wrapper } from '../utils/Atoms'
 
-const ErrorTitle = styled.h1`
-  font-weight: 300;
+const ErrorTitle = styled.h2`
+  font size : 30px;
 `
-const ErrorSubtitle = styled.h2`
-  font-weight: 300;
-  color: ${colors.secondary};
+const ErrorSubtitle = styled.p`
+  font size : 20px;
 `
 const summary = {title:'Error 404', menu:[]}
 

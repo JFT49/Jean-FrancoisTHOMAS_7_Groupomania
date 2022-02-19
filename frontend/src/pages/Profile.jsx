@@ -40,8 +40,8 @@ const summary = {title:'Profile', menu:['Home']}
 function Profile() {
 
   const [isDataLoading, setDataLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const [profile, setProfile] = useState(null)
+  const [error, setError] = useState(false)
+  const [profile, setProfile] = useState()
 
   useEffect(() => {
     async function fetchPost() {
@@ -74,16 +74,16 @@ function Profile() {
       isDataLoading ? ( <Loader /> ) : (
         <Wrapper>
           <Header scalevalue={summary} />
-            <ProfileText>
-              Name : { profile.user.name } <br />
-              Mail : { profile.user.email }
-            </ProfileText>
-            <Link  to={`/Login`} style={{marginTop: 50}}>
-            <button onClick={() => Deconnexion()} style={{fontSize: 25}}  > Deconnexion </button>
-            </Link>
-            <Link  to={`/Register`} style={{margin: 25}}>
-            <button onClick={() => Unregister()} style={{fontSize: 25}}  > Unregister </button>
-            </Link>
+          <ProfileText>
+            Name : { profile.user.name } <br />
+            Mail : { profile.user.email }
+          </ProfileText>
+          <Link  to={`/Login`} style={{marginTop: 50}}>
+          <button onClick={() => Deconnexion()} style={{fontSize: 25}}  > Deconnexion </button>
+          </Link>
+          <Link  to={`/Register`} style={{margin: 25}}>
+          <button onClick={() => Unregister()} style={{fontSize: 25}}  > Unregister </button>
+          </Link>
         </Wrapper>
       )
     )

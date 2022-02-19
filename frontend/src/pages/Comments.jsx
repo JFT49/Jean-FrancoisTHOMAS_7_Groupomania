@@ -9,7 +9,7 @@ const summary = {title:'Comments', menu:['Profile', 'Home']}
 function Comments() {   
   
   const [isDataLoading, setDataLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(false)
   const [postSingle, setPostSingle] = useState([])
   const [commentList, setCommentList] = useState([])
   const { postid } = useParams()
