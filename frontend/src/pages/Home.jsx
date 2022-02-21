@@ -1,7 +1,8 @@
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import Post from '../components/Post'
 import { useEffect, useState } from 'react'
-import { Loader, formatDate, Wrapper } from '../utils/Atoms'
+import { Wrapper, Loader, formatDate } from '../utils/CSS'
 
 const summary = {title:'Home', menu:['Profile']}
 
@@ -46,6 +47,7 @@ function Home() {
       {isDataLoading ? ( <Loader /> ) : (
         <Post scalevalue={postList} />
       )} 
+      <Footer/>
     </Wrapper>
   )
 }

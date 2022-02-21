@@ -1,6 +1,6 @@
-import './index.css';
+import './utils/index.css'
 
-import React from 'react';
+import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { render } from "react-dom"
 
@@ -14,15 +14,15 @@ import Register from './pages/Register'
 const rootElement = document.getElementById('root')
 render(
   <BrowserRouter>
-        <Routes>
-          <Route path="*" element={<Error />} />
-          <Route path="/Home" element={<Home />} />
-          <Route path="/Comments/:postid" element={<Comments />} />
-          <Route path="/Profile" element={<Profile />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/" element={<Login />} />
-          <Route path="/Register" element={<Register />} />
-        </Routes>
+    <Routes>
+      <Route path="*" element={<Error />} />
+      <Route path="/Home" element={<Home />} />
+      <Route path="/Comments/:postid" element={<Comments />} />
+      <Route path="/Profile" element={<Profile />} />
+      <Route path="/Login" element={<Login />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/Register" element={<Register />} />
+    </Routes>
   </BrowserRouter>
   ,rootElement
 );

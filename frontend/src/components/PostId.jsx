@@ -1,47 +1,7 @@
-import styled from 'styled-components'
 import colors from '../utils/Colors'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Loader, Wrapper } from '../utils/Atoms'
-
-const PostCross = styled.button`
-  position: absolute;
-  cursor: pointer;
-  background: none;
-  border: 0px;
-  right: 15px;
-  top: 15px;
-  font-size: 40px;
-  color: ${colors.secondary};
-`
-const PostDiv = styled.div`
-  position: relative;
-  padding: 25px 10px;
-  margin: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: solid;
-  border-radius: 30px;
-  width: 100%;
-`
-const PostText1 = styled.p`
-  font-weight: normal;
-  font-size: 40px;
-  color: ${colors.primary};
-`
-const PostText = styled.p`
-  font-weight: normal;
-  font-size: 40px;
-  color: ${colors.secondary};
-`
-const PostImg = styled.img`
-  max-height: 200px;
-`
-const PostForm = styled.form`
-  font-size: 40px;
-  color: ${colors.secondary};   
-`
+import { Loader, PostForm, Carte, PostDiv, PostCross, PostImg, Text, Wrapper} from '../utils/CSS'
 
 function PostId(props) {
   
@@ -52,7 +12,7 @@ function PostId(props) {
   const [error, setError] = useState(false)
   const [isDataLoading, setDataLoading] = useState(false)
   const { postid } = useParams()
-  const handleMouseOver = (e) => { e.target.style.color = 'darkred' }
+  const handleMouseOver = (e) => { e.target.style.color = 'dark' }
   const handleMouseLeave = (e) => { e.target.style.color = colors.secondary }
   const [thisUser, setUser] = useState({name:"", admin:false})
 
@@ -123,37 +83,40 @@ function PostId(props) {
 
   return (
     <Wrapper>
+      <br/>
       <PostDiv key={Post.id} style={{backgroundColor: colors.background}}>
         <PostImg src={Post.image} alt={"Illustration du post (id:" + Post.id + ")"}/>
-        <PostText1>
+        <Text style={{color:'black', margin:'10px'}}>
           {Post.text} <br />
-          De {Post.author} le {Post.createdAt}
-        </PostText1>
+          De {Post.author} <br />
+          le {Post.createdAt}
+        </Text>
       </PostDiv>
-      <PostDiv>
-        <PostForm onSubmit={sendComment}>
-          <label htmlFor="message"> New Comment :  </label>
-          <textarea onChange={(e) => setFormData({...formData, message: e.target.value})}  value={formData.message} name="message" id="message" required></textarea>
-          <br/>
-          <button type="submit" style={{fontSize: 25}}  > Send </button>
-        </PostForm>
-      </PostDiv> 
+      <PostForm onSubmit={sendComment}>
+        <label htmlFor="message"> New Comment :  </label>
+        <textarea onChange={(e) => setFormData({...formData, message: e.target.value})}  value={formData.message} name="message" id="message" required style={{marginTop:'10px',fontSize: '0.8em'}}/>
+        <br/>
+        <button type="submit" style={{fontSize: '0.8em'}}  > Send </button>
+      </PostForm>
       {isDataLoading ? ( <Loader /> ) : (
         CommentList.map((com) =>
-          <PostDiv key={com.id}>
-            {thisUser.name === com.author || thisUser.admin
-            ? ( 
-                <PostCross onClick={() => DeleteComment(com.id)} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
-                  X
-                </PostCross> 
-              ) 
-            : ( null )
-            }
-              <PostText >
-                {com.text} <br />
-                De {com.author} le {com.createdAt}
-              </PostText>
-          </PostDiv>
+          <Carte key={com.id}>
+            <PostDiv>
+              {thisUser.name === com.author || thisUser.admin
+              ? ( 
+                  <PostCross onClick={() => DeleteComment(com.id)} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
+                    X
+                  </PostCross> 
+                ) 
+              : ( null )
+              }
+                <Text >
+                  {com.text} <br />
+                  De {com.author} <br />
+                  le {com.createdAt}
+                </Text>
+            </PostDiv>
+          </Carte>
         )
       )}
     </Wrapper>

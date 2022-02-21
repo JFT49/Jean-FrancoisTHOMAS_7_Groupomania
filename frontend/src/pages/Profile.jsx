@@ -1,14 +1,8 @@
-import styled from 'styled-components'
-import colors from '../utils/Colors'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import { useEffect, useState } from 'react'
-import { Loader, Wrapper } from '../utils/Atoms'
+import { Wrapper, ProfileText, Loader } from '../utils/CSS'
 import { Link } from 'react-router-dom'
-
-const ProfileText = styled.div`
-    font-size: 40px;
-    color: ${colors.secondary};
-`
 
 function Deconnexion() {
   localStorage.clear()
@@ -78,12 +72,16 @@ function Profile() {
             Name : { profile.user.name } <br />
             Mail : { profile.user.email }
           </ProfileText>
-          <Link  to={`/Login`} style={{marginTop: 50}}>
+          <br />
+          <Link  to={`/Login`}>
           <button onClick={() => Deconnexion()} style={{fontSize: 25}}  > Deconnexion </button>
           </Link>
-          <Link  to={`/Register`} style={{margin: 25}}>
+          <br />
+          <Link  to={`/Register`}>
           <button onClick={() => Unregister()} style={{fontSize: 25}}  > Unregister </button>
           </Link>
+          <br />
+          <Footer/>
         </Wrapper>
       )
     )

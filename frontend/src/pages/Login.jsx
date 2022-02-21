@@ -1,16 +1,10 @@
-import styled from 'styled-components'
-import colors from '../utils/Colors'
 import Header from '../components/Header'
-import { Wrapper } from '../utils/Atoms'
+import Footer from '../components/Footer'
+import { Wrapper, Form, ResText } from '../utils/CSS'
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom"
-import { Helmet } from 'react-helmet'
 
-const LoginForm = styled.form`
-    padding: 20px;
-    font-size: 40px;
-    color: ${colors.secondary};
-`
+
 
 const summary = {title:'Login', menu:[ 'Register']}
 
@@ -53,22 +47,19 @@ function Login() {
   return (
     
     <Wrapper>
-      <Helmet><title>Groupomania</title></Helmet>
       <Header scalevalue={summary} />
-      <section>
-      <LoginForm onSubmit={sendPost} novalidate>
-        <label htmlFor="name"> Name :  </label>
-        <input onChange={(e) => setFormData({...formData, name: e.target.value})}  value={formData.name} name="name" id="name" required style={{fontSize: 25}} />
+      <ResText>{signup.message}</ResText>
+      <Form onSubmit={sendPost} novalidate>
+        <label htmlFor="name"> Name :  </label><br/>
+        <input onChange={(e) => setFormData({...formData, name: e.target.value})}  value={formData.name} name="name" id="name" required style={{fontSize: '0.8em', marginBottom: 20}} />
         <br/>
-        <label htmlFor="password"> Password :  </label>
-        <input onChange={(e) => setFormData({...formData, password: e.target.value})}  value={formData.password} name="password" id="password" required style={{fontSize: 25}} />
+        <label htmlFor="password"> Password :  </label><br/>
+        <input onChange={(e) => setFormData({...formData, password: e.target.value})}  value={formData.password} name="password" id="password" required style={{fontSize: '0.8em', marginBottom: 35}} />
         <br/>
-        <button type="submit" style={{fontSize: 25}}  > Send </button>
+        <button type="submit" style={{fontSize: '0.8em'}}  > Send </button>
         <br/>
-      </LoginForm>
-      <br/>
-      <div><pre>{signup.message}</pre></div>
-      </section>
+      </Form>
+      <Footer/>
     </Wrapper>
   )
 }

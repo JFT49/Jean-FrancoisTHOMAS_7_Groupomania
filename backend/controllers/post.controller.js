@@ -2,6 +2,7 @@ const db = require("../models")
 const Post = db.post
 const User = db.user
 const Comment = db.comment
+const fs = require('fs')   //FS : file system
 
 // Create and Save a new Post
 exports.create = (req, res) => {
@@ -47,7 +48,18 @@ exports.findOne = (req, res) => {
 // Delete a single Post with an id and his comments
 exports.delete = (req, res) => {
   const postid = req.params.postid
-  Post.destroy({where: {id: postid} })
+  
+  Post.findByPk(postid)
+  .then(post => {
+    if (post.image != null) { 
+      const filename = post.image.split('/images/')[1]    //recupere le nom du fichier image a supprimer
+      console.log(filename)
+      fs.unlinkSync(`images/${filename}`)    //supprime le fichier image
+    }
+  })
+  .catch(err => { res.status(500).send({ message: err.message }) })  
+  
+  Post.destroy({where: {id: postid} })   //supprime le post de la BDD
     .then(num => {
       if (num == 1) { 
         Comment.destroy({ where: {post_id: postid} })

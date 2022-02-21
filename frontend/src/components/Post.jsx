@@ -1,74 +1,7 @@
-import styled from 'styled-components'
 import colors from '../utils/Colors'
 import { Link } from 'react-router-dom'
 import React, { useState } from 'react'
-import { Loader, Wrapper } from '../utils/Atoms'
-
-const PostForm = styled.form`
-padding: 25px 0;
-margin: 25px 10px 10px 10px;
-display: flex;
-flex-direction: column;
-align-items: center;
-border: solid black;
-border-radius: 30px;
-width:100%;
-font-size: 40px;
-color: ${colors.secondary};  
-  @media (max-width: 800px) {
-    font-size: 25px; 
-`
-const LabelImg = styled.label`
-  background: #efefef;
-  color: black;
-  padding: 0 7px 4px 7px;
-  font-size: 25px;
-  border: 1px solid grey;
-  border-radius: 3px;
-`
-const InputImg = styled.input`
-  display: none;
-`
-
-const Carte = styled.div`
-  position: relative;
-  width: 100%;
-  padding: 0 10px;
-  margin: 15px 0;
-`
-const PostDiv = styled.div`
-  padding: 25px 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: solid;
-  border-radius: 30px;
-`
-const PostCross = styled.button`
-  cursor: pointer;
-  background: none;
-  border: 0px;
-  position: absolute;
-  right: 22px;
-  top: 15px;
-  font-size: 25px;
-  color: ${colors.secondary};
-`
-const PostImg = styled.img`
-  max-width: 300px;
-  @media (max-width: 800px) {
-    max-width: 150px;
-  }
-`
-const PostText = styled.p`
-  font-weight: normal;
-  font-size: 40px;
-  color: ${colors.secondary};
-  @media (max-width: 800px) {
-    font-size: 25px;
-  }
-`
-
+import { Loader, PostForm, LabelImg, Carte, PostDiv, PostCross, PostImg, Text, Wrapper} from '../utils/CSS'
 
 function Post(props) {
   
@@ -153,13 +86,13 @@ function Post(props) {
     <Wrapper>
       <PostForm onSubmit={sendPost} >
         <label htmlFor='message'> New Post :  </label>
-        <textarea onChange={(e) => setFormMessage({...formMessage, message: e.target.value})}  value={formMessage.message} name="message" id="message" required></textarea>
+        <textarea onChange={(e) => setFormMessage({...formMessage, message: e.target.value})}  value={formMessage.message} name="message" id="message" required style={{marginTop:'10px',fontSize: '0.8em'}}/>
         <br/>
         <LabelImg htmlFor='image'onMouseOver={buttonMouseOver} onMouseLeave={buttonMouseLeave} >Choose a picture</LabelImg> 
-        <InputImg onChange={(e) => setImage({...fileImage, image: e.target.files[0]})}  name="image" id="image" type="file" accept="image/png, image/jpeg, image/jpg, image/gif"/>
+        <input onChange={(e) => setImage({...fileImage, image: e.target.files[0]})}  name="image" id="image" type="file" accept="image/png, image/jpeg, image/jpg, image/gif" style={{display:'none'}}/>
         { fileImage.image ? <div style={{width: '300px', fontSize:'0.5em', wordBreak: 'break-all', textAlign:'center'}}>{fileImage.image.name}</div> : null }
         <br/>
-        <button type="submit" style={{fontSize: 25}}  > Send </button>
+        <button type="submit" style={{fontSize: '0.8em'}}  > Send </button>
       </PostForm>
       {isDataLoading ? ( <Loader /> ) : (
         PostList.map((post) =>
@@ -175,11 +108,11 @@ function Post(props) {
           <Link to={`/Comments/${post.id}`} style={{color:'inherit', textDecoration:'inherit'}}>
             <PostDiv>
               { !post.image ? ( null ) : ( <PostImg src={post.image} alt={"Illustration d'un post (id:" + post.id + ")"} /> ) } 
-              <PostText>
+              <Text>
                 {post.text} <br />
                 De {post.author} <br />
                 le {post.createdAt}
-              </PostText>
+              </Text>
             </PostDiv>
           </Link>
           </Carte>

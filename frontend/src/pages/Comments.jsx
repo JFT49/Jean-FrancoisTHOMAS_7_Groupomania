@@ -1,7 +1,8 @@
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { Loader, formatDate, Wrapper } from '../utils/Atoms'
+import { Wrapper, Loader, formatDate } from '../utils/CSS'
 import PostId from '../components/PostId'
 
 const summary = {title:'Comments', menu:['Profile', 'Home']}
@@ -67,6 +68,7 @@ function Comments() {
       {isDataLoading ? ( <Loader /> ) : (
         <PostId scalevalue={postSingle} scalevalue1={commentList} />
       )} 
+      <Footer/>
     </Wrapper>
   )
 }

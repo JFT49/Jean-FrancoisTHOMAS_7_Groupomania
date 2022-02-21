@@ -1,20 +1,12 @@
-import styled from 'styled-components'
-import colors from '../utils/Colors'
 import Header from '../components/Header'
-import { Wrapper } from '../utils/Atoms'
+import Footer from '../components/Footer'
+import { Wrapper, Form, ResText } from '../utils/CSS'
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom"
-
-const LoginForm = styled.form`
-  padding: 20px;
-  font-size: 40px;
-  color: ${colors.secondary};   
-`
 
 const summary = {title:'Register', menu:[ 'Login']}
 
 function Register() {
-
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: "",
@@ -37,13 +29,12 @@ function Register() {
         }
         const resp = await fetch(`http://localhost:8000/api/user/signup`, myInit)
         const message = await resp.json()
-        console.log(message)
         if (message.error){ 
           if(message.error.fields.name) { setSignup({message: "Nom \"" + message.error.fields.name + "\" déjà utilisé !"}) }
           if(message.error.fields.email) { setSignup({message: "Email \"" + message.error.fields.email + "\" déjà utilisé !"}) }
         }
         else { setSignup(message) }
-        if ( message.created ) { navigate(`/Login`) }  
+        if ( message.message === 'Utilisateur créé !' ) { navigate(`/Login`) }  
       }
       catch (error) {
         console.log('===== error =====', error)
@@ -60,21 +51,21 @@ function Register() {
   return (
     <Wrapper>
       <Header scalevalue={summary} />
-      <LoginForm onSubmit={sendPost} novalidate>
-        <label htmlFor="name"> Name :  </label>
-        <input onChange={(e) => setFormData({...formData, name: e.target.value})}  value={formData.name} name="name" id="name" required style={{fontSize: 25}} />
+      <ResText>{response.message}</ResText> 
+      <Form onSubmit={sendPost} novalidate>
+        <label htmlFor="name"> Name :  </label><br/>
+        <input onChange={(e) => setFormData({...formData, name: e.target.value})}  value={formData.name} name="name" id="name" required style={{fontSize: '0.8em', marginBottom: 20}} />
         <br/>
-        <label htmlFor="email"> Email :  </label>
-        <input onChange={(e) => setFormData({...formData, email: e.target.value})}  value={formData.email} name="email" id="email" type="email" required style={{fontSize: 25}} />
+        <label htmlFor="email"> Email :  </label><br/>
+        <input onChange={(e) => setFormData({...formData, email: e.target.value})}  value={formData.email} name="email" id="email" type="email" required style={{fontSize: '0.8em', marginBottom: 20}} />
         <br/>
-        <label htmlFor="password"> Password :  </label>
-        <input onChange={(e) => setFormData({...formData, password: e.target.value})}  value={formData.password} name="password" id="password" required style={{fontSize: 25}} />
+        <label htmlFor="password"> Password :  </label><br/>
+        <input onChange={(e) => setFormData({...formData, password: e.target.value})}  value={formData.password} name="password" id="password" required style={{fontSize: '0.8em', marginBottom: 35}} />
         <br/>
-        <button type="submit" style={{fontSize: 25}}  > Send </button>
+        <button type="submit" style={{fontSize: '0.8em'}}  > Send </button>
         <br/>
-      </LoginForm>
-      <br/>
-        <div class="text"><pre>{response.message}</pre></div> 
+      </Form>
+      <Footer/>
     </Wrapper>
   )
 }
