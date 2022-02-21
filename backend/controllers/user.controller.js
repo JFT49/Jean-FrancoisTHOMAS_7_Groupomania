@@ -6,6 +6,7 @@ const fs = require('fs')                //FS : file system
 const bcrypt = require('bcrypt')        //BCRYPT : package de chiffrement (hash)
 const jwt = require('jsonwebtoken')     //JSONWEBTOKEN : gestion token d'identification
 require('dotenv').config()              //DOTENV : pour le gestion des variables d'environneemnts
+const { Op } = require("sequelize")
 
 const passwordValidator = require('password-validator')  // Plugin password-validator
 var Validation = new passwordValidator()
@@ -76,9 +77,11 @@ exports.profile = (req, res) => {           // res.locals est transmis ppar la r
 }
 
 exports.delete = (req, res) => {             // res.locals est transmis par la req
+    
     const {userId} = res.locals 
     const liste = []
     let reponse =""
+
     User.findOne({where: {id: userId} })
         .then(user => {
 
@@ -92,15 +95,15 @@ exports.delete = (req, res) => {             // res.locals est transmis par la r
                         }
                         liste.push(post.id)
                     })
-                    console.log("post supprimés: "+ liste)
 
-                    Comment.destroy({where: {author: user.dataValues.name} })
-                    .then(num => { reponse += "Comments deleted : " + num + "\n" })
-                    .catch(error => res.status(500).json({ message: error.message || "Could not delete Comments" }) )
+                    Comment.destroy({where: { [Op.or]: [{ author: user.dataValues.name},{post_id: liste}] } })
+                        .then(num => { reponse += "Comments deleted : " + num + "\n" })
+                        .catch(error => res.status(500).json({ message: error.message || "Could not delete Comments" }) )
                 
                     Post.destroy({where: {author: user.dataValues.name} })
                         .then(num => { reponse += "Posts deleted : " + num + "\n"})
                         .catch(error => res.status(500).json({ message: error.message || "Could not delete Posts" }) )
+                    console.log("ID post deleted: " + liste)
 
                     User.destroy({where: {id: userId} })
                         .then(num => {

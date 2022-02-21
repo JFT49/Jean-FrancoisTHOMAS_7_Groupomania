@@ -32,8 +32,10 @@ export const LabelImg = styled.label`
   border-radius: 3px;
 `
 export const Carte = styled.div`
+  word-break: break-word;
   position: relative;
   width: 100%;
+  max-width: 800px;
   padding: 0 10px;
   margin: 15px 0;
 `

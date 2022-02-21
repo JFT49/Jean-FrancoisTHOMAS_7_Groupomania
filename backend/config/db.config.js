@@ -4,7 +4,7 @@ module.exports = {
     HOST: "localhost",
     USER: "root",
     PASSWORD: process.env.MYSQL_ROOT_PASS,
-    DB: "Groupomania",
+    DB: "groupomania",
     dialect: "mysql",
     pool: {
       max: 5,
