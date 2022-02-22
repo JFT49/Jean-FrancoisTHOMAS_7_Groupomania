@@ -15,14 +15,14 @@ const rootElement = document.getElementById('root')
 render(
   <BrowserRouter>
     <Routes>
-      <Route path="*" element={<Error />} />
+      <Route path="*" element={<Error />} />                          {/* Toutes page non définit = Page Error */}
       <Route path="/Home" element={<Home />} />
       <Route path="/Comments/:postid" element={<Comments />} />
       <Route path="/Profile" element={<Profile />} />
       <Route path="/Login" element={<Login />} />
-      <Route path="/" element={<Login />} />
+       <Route path="/" element={<Login />} />                         {/* Page par defaut : Login */}
       <Route path="/Register" element={<Register />} />
     </Routes>
   </BrowserRouter>
   ,rootElement
-);
+)

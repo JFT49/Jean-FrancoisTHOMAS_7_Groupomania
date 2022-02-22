@@ -6,7 +6,7 @@ const fs = require('fs')                //FS : file system
 const bcrypt = require('bcrypt')        //BCRYPT : package de chiffrement (hash)
 const jwt = require('jsonwebtoken')     //JSONWEBTOKEN : gestion token d'identification
 require('dotenv').config()              //DOTENV : pour le gestion des variables d'environneemnts
-const { Op } = require("sequelize")
+const { Op } = require("sequelize")     //opérateur logique pour le where
 
 const passwordValidator = require('password-validator')  // Plugin password-validator
 var Validation = new passwordValidator()
@@ -64,7 +64,7 @@ exports.login = (req, res) => {
         .catch(error => res.status(500).json({ error }))
 }
 
-exports.profile = (req, res) => {           // res.locals est transmis ppar la req
+exports.profile = (req, res) => {           // res.locals est transmis par la req
     const {userId} = res.locals    
     User.findOne({where: {id: userId} })
         .then(user => {

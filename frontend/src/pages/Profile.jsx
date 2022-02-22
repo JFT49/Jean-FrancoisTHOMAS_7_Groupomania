@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react'
 import { Wrapper, ProfileText, Loader } from '../utils/CSS'
 import { Link } from 'react-router-dom'
 
-function Deconnexion() {
+function Deconnexion() {    //bouton deconnexion
   localStorage.clear()
   alert('You are deconnected !')
 }
 
-function Unregister() {
+function Unregister() {    //bouton unregister
   async function fetchDelete() {
     try {  
       const storage = JSON.parse(localStorage.getItem('objet'))
@@ -38,7 +38,7 @@ function Profile() {
   const [profile, setProfile] = useState()
 
   useEffect(() => {
-    async function fetchPost() {
+    async function fetchPost() {   //Recupere le profile du user
       setDataLoading(true)
       try { 
         const storage = JSON.parse(localStorage.getItem('objet'))

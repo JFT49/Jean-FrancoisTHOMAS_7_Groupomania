@@ -2,7 +2,7 @@ const db = require("../models")
 const Post = db.post
 const User = db.user
 const Comment = db.comment
-const fs = require('fs')   //FS : file system
+const fs = require('fs')   //FS : file system pour la gestion des fichiers image
 
 // Create and Save a new Post
 exports.create = (req, res) => {

@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
         if (req.body.userId && req.body.userId !== userId) {
             throw 'User ID non valable !';
         } else {
-            res.locals.userId = userId;
+            res.locals.userId = userId;                       //donne accés à userId au middleware suivant
             next()
         }
     } catch (error) {

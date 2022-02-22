@@ -17,9 +17,8 @@ function Register() {
   const [error, setError] = useState(null)
   const [response, setSignup] = useState([])
 
-  const sendPost = (e) => {
-    e.preventDefault()    // empêche le reload
-
+  const sendForm = (e) => {
+    e.preventDefault()    // empêche le reload pour conserver les données du formulaire
     async function fetchPost() {
       try {
         var myInit = {
@@ -52,7 +51,7 @@ function Register() {
     <Wrapper>
       <Header scalevalue={summary} />
       <ResText>{response.message}</ResText> 
-      <Form onSubmit={sendPost} novalidate>
+      <Form onSubmit={sendForm} novalidate>
         <label htmlFor="name"> Name :  </label><br/>
         <input onChange={(e) => setFormData({...formData, name: e.target.value})}  value={formData.name} name="name" id="name" required style={{fontSize: '0.8em', marginBottom: 20}} />
         <br/>

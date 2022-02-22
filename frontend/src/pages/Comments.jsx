@@ -22,7 +22,7 @@ function Comments() {
       headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
     } 
 
-    async function fetchPostId() {
+    async function fetchPostId() {    //Recupere le Post
       setDataLoading(true)
       try {
         const response = await fetch(`http://localhost:8000/api/post/${postid}`, myInit)
@@ -38,7 +38,7 @@ function Comments() {
     }
     fetchPostId()
 
-    async function fetchComment() {
+    async function fetchComment() {     //Recupere les commentaires du post
       setDataLoading(true)
       try {
         const response = await fetch(`http://localhost:8000/api/comment/${postid}`, myInit)

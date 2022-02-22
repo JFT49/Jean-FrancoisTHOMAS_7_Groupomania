@@ -1,5 +1,5 @@
 import colors from '../utils/Colors'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Loader, PostForm, Carte, PostDiv, PostCross, PostImg, Text, Wrapper} from '../utils/CSS'
 
@@ -16,7 +16,7 @@ function PostId(props) {
   const handleMouseLeave = (e) => { e.target.style.color = colors.secondary }
   const [thisUser, setUser] = useState({name:"", admin:false})
 
-  const sendComment = (e) => {
+  const sendComment = (e) => {     //Enregistrement d'un commentaire
     async function fetchPost() {
       setDataLoading(true)
       try {
@@ -42,7 +42,7 @@ function PostId(props) {
     }
   }
 
-  const DeleteComment = (comId) => {
+  const DeleteComment = (comId) => {     //Suppression d'un commentaire
     async function fetchDelete() {
       try { 
         var myInit = {
@@ -63,29 +63,29 @@ function PostId(props) {
     if (error) { return <span>Oups il y a eu un problème</span> }
   }
 
-  async function UserControle() {
-    try { 
-      var myInit = {
-        method: 'GET',
-        headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
-      } 
-      const response = await fetch(`http://localhost:8000/api/user/profile`, myInit)
-      const profile = await response.json()
-      setUser({name: profile.user.name, admin: profile.user.admin})  
-    } catch (error) {
-      console.log('===== error =====', error)
-      setError(true)
+  useEffect(() => {
+    async function UserControle() {   //controle de l'identité du user et de son droit admin
+      try { 
+        var myInit = {
+          method: 'GET',
+          headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
+        } 
+        const response = await fetch(`http://localhost:8000/api/user/profile`, myInit)
+        const profile = await response.json()
+        setUser({name: profile.user.name, admin: profile.user.admin})  
+      } catch (error) {
+        console.log('===== error =====', error)
+        setError(true)
+      }
     }
-  }
-  if (!thisUser.name.length) {
     UserControle()
-  }
+  }, [storage.token])
 
   return (
     <Wrapper>
       <br/>
       <PostDiv key={Post.id} style={{backgroundColor: colors.background}}>
-        <PostImg src={Post.image} alt={"Illustration du post (id:" + Post.id + ")"}/>
+        { Post.image ? ( <PostImg src={Post.image} alt={"Illustration du post (id:" + Post.id + ")"}/> ) : ( null ) } 
         <Text style={{color:'black', margin:'10px'}}>
           {Post.text} <br />
           De {Post.author} <br />

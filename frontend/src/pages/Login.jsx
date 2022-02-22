@@ -16,7 +16,7 @@ function Login() {
   const [formData, setFormData] = useState({ name: "", password: "" })
 
   const sendPost = (e) => {
-    e.preventDefault()    // empêche le reload
+    e.preventDefault()    // empêche le reload pour conserver les données du formulaire
     async function fetchPost() {
       try {
         var myInit = {

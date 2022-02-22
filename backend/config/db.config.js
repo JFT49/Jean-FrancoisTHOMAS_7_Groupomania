@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config()    //DOTENV : pour le gestion des variables d'environneemnts
 
 module.exports = {
     HOST: "localhost",

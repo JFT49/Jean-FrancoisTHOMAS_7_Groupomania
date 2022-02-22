@@ -1,6 +1,6 @@
 import colors from '../utils/Colors'
 import { Link } from 'react-router-dom'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Loader, PostForm, LabelImg, Carte, PostDiv, PostCross, PostImg, Text, Wrapper} from '../utils/CSS'
 
 function Post(props) {
@@ -17,7 +17,7 @@ function Post(props) {
   const storage = JSON.parse(localStorage.getItem('objet'))
   const [thisUser, setUser] = useState({name:"", admin:false})
 
-  const sendPost = () => {
+  const sendPost = () => {          //Enregistrement d'un Post
     async function fetchPost() {
       setDataLoading(true)
       try {
@@ -43,7 +43,7 @@ function Post(props) {
     if (error) { return <span>Oups il y a eu un problème</span> }
   }
 
-  const DeletePost = (postId) => {
+  const DeletePost = (postId) => {    //Suppression d'un Post
     async function fetchDelete() {
       try { 
         var myInit = {
@@ -64,23 +64,23 @@ function Post(props) {
     if (error) { return <span>Oups il y a eu un problème</span> }
   }
 
-  async function UserControle() {
-    try { 
-      var myInit = {
-        method: 'GET',
-        headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
-      } 
-      const response = await fetch(`http://localhost:8000/api/user/profile`, myInit)
-      const profile = await response.json()
-      setUser({name: profile.user.name, admin: profile.user.admin})  
-    } catch (error) {
-      console.log('===== error =====', error)
-      setError(true)
+  useEffect(() => {
+    async function UserControle() {       //controle de l'identité du user et de son droit admin
+      try { 
+        var myInit = {
+          method: 'GET',
+          headers: new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + storage.token }),
+        } 
+        const response = await fetch(`http://localhost:8000/api/user/profile`, myInit)
+        const profile = await response.json()
+        setUser({name: profile.user.name, admin: profile.user.admin})  
+      } catch (error) {
+        console.log('===== error =====', error)
+        setError(true)
+      }
     }
-  }
-  if (!thisUser.name.length) {
     UserControle()
-  }
+  }, [storage.token])
 
   return (
     <Wrapper>
@@ -107,7 +107,7 @@ function Post(props) {
           }
           <Link to={`/Comments/${post.id}`} style={{color:'inherit', textDecoration:'inherit'}}>
             <PostDiv>
-              { !post.image ? ( null ) : ( <PostImg src={post.image} alt={"Illustration d'un post (id:" + post.id + ")"} /> ) } 
+              { post.image ? ( <PostImg src={post.image} alt={"Illustration d'un post (id:" + post.id + ")"} /> ) : (null) } 
               <Text>
                 {post.text} <br />
                 De {post.author} <br />
